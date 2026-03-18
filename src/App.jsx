@@ -228,7 +228,7 @@ export default function App() {
               boxShadow: '4px 4px 0 rgba(0,0,0,0.2)',
               whiteSpace: 'nowrap', textTransform: 'uppercase'
             }}>
-              Click mes contacts 👇
+              Mes contacts 👇
             </div>
             <div style={{
               width: 0, height: 0,
