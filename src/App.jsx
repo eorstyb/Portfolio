@@ -9,27 +9,120 @@ export default function App() {
   const cvData = {
     about: {
       title: "À PROPOS",
-      content: "Ingénieur, dynamique et motivé, étudiant le domaine de l'ingénierie du cloud computing à la recherche d'un stage de fin d'études. Découvrir le métier de développeur fullstack dans le monde de l'entreprise tout en apprenant de nouvelles technologies est pour moi une réelle ambition.",
+      content: (
+        <>
+          <b>Ingénieur</b>, dynamique et motivé, étudiant le domaine de l'ingénierie du <b>cloud computing</b> à la recherche d'un <b>stage de fin d'études</b>. Découvrir le métier de <b>développeur fullstack</b> dans le monde de l'entreprise tout en apprenant de nouvelles technologies est pour moi une réelle ambition.
+        </>
+      ),
     },
     skills: {
       title: "COMPÉTENCES",
-      content: "• Google Cloud Platform / AWS\n• Langages : Java, C, C#, Python, JS, TypeScript\n• Outils : Docker, Git\n• OS : Linux, Windows\n• Langues : Français (natif), Anglais (pro), Japonais (notions)",
+      content: (
+        <>
+          • <b>Cloud Provider</b> : Google Cloud Platform / AWS<br />
+          • <b>Langages</b> : Java, C, C#, Python, JS, TypeScript<br />
+          • <b>Outils</b> : Docker, Git<br />
+          • <b>OS</b> : Linux, Windows<br />
+          • <b>Langues</b> : Français (natif), Anglais (pro), Japonais (notions)
+        </>
+      ),
     },
     experience: {
       title: "EXPÉRIENCES PRO",
-      content: "• Stagiaire IA - Osaka Metropolitan University (2024) : Minimisation de datasets, Scrapping, Optimisation de LLM.\n• Stagiaire Ingénieur d'étude - Infotel (2018-2021) : TMA application web Springboot, Jira, Scrumban.\n• Alternant développeur - ACHGO (2019-2020) : App web Java, tests JS, Wordpress.",
+      // FRISE CHRONOLOGIQUE INTÉGRÉE ICI
+      content: (
+        <div style={{ position: 'relative', borderLeft: '3px solid #bfdbfe', marginLeft: '10px', marginTop: '15px', paddingBottom: '5px' }}>
+          
+          {/* Expérience 3 (La plus récente) : Osaka */}
+          <div style={{ position: 'relative', paddingLeft: '30px',  paddingBottom: '35px' }}>
+            <div style={{ position: 'absolute', left: '-10px', top: '0', width: '16px', height: '16px', borderRadius: '50%', backgroundColor: '#3b82f6', border: '3px solid #fff', boxShadow: '0 0 0 2px #bfdbfe' }}></div>
+            <div style={{ backgroundColor: '#eff6ff', color: '#1d4ed8', padding: '4px 12px', borderRadius: '20px', fontSize: '0.85rem', fontWeight: 'bold', display: 'inline-block', marginBottom: '10px' }}>
+              Avril 2024 - Août 2024
+            </div>
+            <h3 style={{ margin: '0 0 8px 0', fontSize: '1.25rem', color: '#0f172a' }}>
+              Stagiaire IA <span style={{ color: '#64748b', fontSize: '1.05rem', fontWeight: 'normal' }}>@ Osaka Metropolitan University</span>
+            </h3>
+            <p style={{ margin: 0, color: '#475569', fontSize: '0.95rem', lineHeight: '1.6' }}>
+              • Recherche de solutions de minimisation des datasets<br/>
+              • Scrapping et analyse de données<br/>
+              • Optimisation et tests de LLM sur le dataset récupéré
+            </p>
+          </div>
+
+          {/* Expérience 1 (La plus ancienne) : Infotel */}
+          <div style={{ position: 'relative', paddingLeft: '30px', paddingBottom: '35px' }}>
+            <div style={{ position: 'absolute', left: '-10px', top: '0', width: '16px', height: '16px', borderRadius: '50%', backgroundColor: '#3b82f6', border: '3px solid #fff', boxShadow: '0 0 0 2px #bfdbfe' }}></div>
+            <div style={{ backgroundColor: '#eff6ff', color: '#1d4ed8', padding: '4px 12px', borderRadius: '20px', fontSize: '0.85rem', fontWeight: 'bold', display: 'inline-block', marginBottom: '10px' }}>
+              Novembre 2020 - Avril 2021
+            </div>
+            <h3 style={{ margin: '0 0 8px 0', fontSize: '1.25rem', color: '#0f172a' }}>
+              Stagiaire Ingénieur d'Étude <span style={{ color: '#64748b', fontSize: '1.05rem', fontWeight: 'normal' }}>@ Infotel</span>
+            </h3>
+            <p style={{ margin: 0, color: '#475569', fontSize: '0.95rem', lineHeight: '1.6' }}>
+              • Tierce Maintenance Applicative d'une application web Springboot<br/>
+              • Gestion des tickets Jira<br/>
+              • Équipe coordonnée grâce à scrumban
+            </p>
+          </div>
+
+          {/* Expérience 2 : ACHGO */}
+          <div style={{ position: 'relative', paddingLeft: '30px' }}>
+            <div style={{ position: 'absolute', left: '-10px', top: '0', width: '16px', height: '16px', borderRadius: '50%', backgroundColor: '#3b82f6', border: '3px solid #fff', boxShadow: '0 0 0 2px #bfdbfe' }}></div>
+            <div style={{ backgroundColor: '#eff6ff', color: '#1d4ed8', padding: '4px 12px', borderRadius: '20px', fontSize: '0.85rem', fontWeight: 'bold', display: 'inline-block', marginBottom: '10px' }}>
+              Novembre 2019 - Septembre 2020
+            </div>
+            <h3 style={{ margin: '0 0 8px 0', fontSize: '1.25rem', color: '#0f172a' }}>
+              Alternant Développeur <span style={{ color: '#64748b', fontSize: '1.05rem', fontWeight: 'normal' }}>@ ACHGO</span>
+            </h3>
+            <p style={{ margin: 0, color: '#475569', fontSize: '0.95rem', lineHeight: '1.6' }}>
+              • Développement et maintenance d'une application web Java<br/>
+              • Tests de projets JavaScript pour conseil d'une entreprise cliente<br/>
+              • Création de pages web Wordpress
+            </p>
+          </div>
+
+          
+
+        </div>
+      ),
     },
     education: {
-      title: "FORMATION & CERTIFS",
-      content: "• Diplôme Ingénieur Informatique - CY TECH (En cours)\n• DUT Informatique - IUT Vélizy-Villacoublay\n• TOEIC : 890/990\n• Certification Google Cloud Associate Cloud Engineer",
+      title: "FORMATION ET CERTIFS",
+      content: (
+        <>
+          • <b>Diplôme Ingénieur Informatique</b> - CY TECH (En cours)<br />
+          • <b>DUT Informatique</b> - IUT Vélizy-Villacoublay<br />
+          • <b>TOEIC : 890/990</b><br />
+          • <b>Certification Google Cloud Associate Cloud Engineer</b>
+        </>
+      ),
     },
     contact: {
       title: "CONTACT",
-      content: "Email : orsolleeth@cy-tech.fr\nTél : +33 6 51 51 73 84\nLinkedIn : @ethan-orsolle-tyberg",
+      content: (
+        <>
+          <b>Email :</b> orsolleeth@cy-tech.fr<br />
+          <b>Tél :</b> +33 6 51 51 73 84<br />
+          <b>LinkedIn :</b> @ethan-orsolle-tyberg
+        </>
+      ),
     },
     interests: {
-      title: "PASSIONS & EASTER EGGS",
-      content: "• Jeux vidéo en coopération (Valorant)\n• Manga & Anime (L'équipage du Chapeau de Paille et le Thousand Sunny !)\n• Musique, sport, mode, cinéma (Pulp Fiction).",
+      title: "PASSIONS",
+      content: (
+        <>
+          <b>Musique</b>, <b>sport</b>, <b>mode</b>, <b>cinéma</b> (Pulp Fiction).
+        </>
+      ),
+    },
+    divertissements: {
+      title: "DIVERTISSEMENTS",
+      content: (
+        <>
+          • <b>Jeux vidéo en coopération</b> (Valorant)<br />
+          • <b>Manga / Anime / Visual Novel</b> (One Piece, Fate, Kingdom...)
+        </>
+      ),
     }
   };
 
@@ -40,7 +133,7 @@ export default function App() {
     { id: 'education', label: 'Diplômes', displayTitle: 'FORMATIONS', top: '40%', left: '45%', width: '22%', height: '15%' },
     { id: 'contact', label: 'Téléphone', displayTitle: null, top: '65%', left: '79%', width: '8%', height: '5%' }, 
     { id: 'interests', label: 'Posters', displayTitle: 'PASSIONS', top: '5%', left: '40%', width: '28%', height: '33%' },
-    { id: 'interests', label: 'Sunny', displayTitle: 'EASTER EGGS', top: '10%', left: '72%', width: '25%', height: '30%' },
+    { id: 'divertissements', label: 'Sunny', displayTitle: 'DIVERTISSEMENTS', top: '10%', left: '72%', width: '25%', height: '30%' },
   ];
 
   return (
@@ -122,7 +215,7 @@ export default function App() {
           />
 
           <div style={{
-            position: 'absolute', top: '64%', left: '82%',
+            position: 'absolute', top: '64%', left: '79%',
             transform: 'translate(-50%, -100%)',
             zIndex: 15,
             display: 'flex', flexDirection: 'column', alignItems: 'center',
@@ -183,7 +276,7 @@ export default function App() {
             </div>
           ))}
 
-          {/* --- NOUVEAU : POPUP D'ACCUEIL --- */}
+          {/* --- POPUP D'ACCUEIL --- */}
           {showWelcome && (
             <div style={{
               position: 'absolute', top: 0, left: 0, right: 0, bottom: 0,
@@ -226,6 +319,7 @@ export default function App() {
             </div>
           )}
 
+          {/* POPUP DE CONTENU */}
           {activeSection && (
             <div style={{
               position: 'absolute', top: 0, left: 0, right: 0, bottom: 0,
@@ -234,7 +328,9 @@ export default function App() {
             }}>
               <div style={{
                 backgroundColor: '#ffffff', padding: '35px', borderRadius: '16px',
-                maxWidth: '550px', width: '85%', position: 'relative',
+                // NOUVEAU : On élargit le popup si c'est la section experience pour la frise
+                maxWidth: activeSection === 'experience' ? '750px' : '550px', 
+                width: '85%', position: 'relative',
                 boxShadow: '0 20px 40px rgba(0,0,0,0.4)', color: '#1e293b',
                 maxHeight: '90%', overflowY: 'auto'
               }}>
@@ -256,11 +352,12 @@ export default function App() {
                 }}>
                   {cvData[activeSection].title}
                 </h2>
-                <p style={{ 
-                  whiteSpace: 'pre-line', lineHeight: '1.7', fontSize: '16px', margin: 0
+                {/* Remplacement de la balise <p> par <div> pour autoriser le JSX complexe de la frise */}
+                <div style={{ 
+                  lineHeight: '1.7', fontSize: '16px', margin: 0
                 }}>
                   {cvData[activeSection].content}
-                </p>
+                </div>
               </div>
             </div>
           )}
