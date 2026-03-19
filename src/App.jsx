@@ -127,8 +127,69 @@ export default function App() {
       title: "À PROPOS",
       content: (
         <>
-          <b>Ingénieur</b>, dynamique et motivé, étudiant le domaine de l'ingénierie du <b>cloud computing</b> à la recherche d'un <b>stage de fin d'études</b>. Découvrir le métier de <b>développeur fullstack</b> dans le monde de l'entreprise tout en apprenant de nouvelles technologies est pour moi une réelle ambition.
+          <b>Ingénieur</b>, dynamique et motivé, étudiant le domaine de l'ingénierie du <b>cloud computing</b>. Découvrir le métier de <b>développeur fullstack</b> dans le monde de l'entreprise tout en apprenant de nouvelles technologies est pour moi une réelle ambition.
         </>
+      ),
+    },
+    projects: {
+      title: "PROJETS",
+      content: (
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '20px', marginTop: '10px' }}>
+          
+          {/* PROJET 1 */}
+          <div style={{ 
+            backgroundColor: '#f8fafc', border: '1px solid #e2e8f0', borderRadius: '12px', padding: '20px',
+            display: 'flex', flexDirection: 'column', gap: '12px' 
+          }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
+              <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" alt="Repo Logo" style={{ width: '40px', height: '40px' }} />
+              <h3 style={{ margin: 0, color: '#0f172a', fontSize: '1.2rem' }}>Nom_Du_Repo_1</h3>
+            </div>
+            <div style={{ 
+              backgroundColor: '#fff', border: '1px solid #cbd5e1', borderRadius: '8px', padding: '15px', 
+              fontSize: '0.85rem', color: '#475569', maxHeight: '150px', overflowY: 'auto', fontFamily: 'monospace' 
+            }}>
+              <b style={{ color: '#000' }}>📄 README.md Preview:</b><br/><br/>
+              Ce projet est une application de [Description courte]. <br/>
+              - Technologie : React, Firebase<br/>
+              - Fonctionnalité : Authentification, CRUD...
+            </div>
+            <a href="https://github.com/abdemeh/projet-kosmio-front" target="_blank" rel="noreferrer" style={{
+              alignSelf: 'flex-start', backgroundColor: '#24292f', color: '#fff', padding: '8px 16px', 
+              borderRadius: '20px', textDecoration: 'none', fontSize: '0.9rem', fontWeight: 'bold', display: 'flex', alignItems: 'center', gap: '8px'
+            }}>
+              <img src="https://cdn-icons-png.flaticon.com/512/25/25231.png" style={{ width: '16px', filter: 'invert(1)' }} />
+              Voir sur GitHub
+            </a>
+          </div>
+
+          {/* PROJET 2 */}
+          <div style={{ 
+            backgroundColor: '#f8fafc', border: '1px solid #e2e8f0', borderRadius: '12px', padding: '20px',
+            display: 'flex', flexDirection: 'column', gap: '12px' 
+          }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
+              <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" alt="Repo Logo" style={{ width: '40px', height: '40px' }} />
+              <h3 style={{ margin: 0, color: '#0f172a', fontSize: '1.2rem' }}>Nom_Du_Repo_2</h3>
+            </div>
+            <div style={{ 
+              backgroundColor: '#fff', border: '1px solid #cbd5e1', borderRadius: '8px', padding: '15px', 
+              fontSize: '0.85rem', color: '#475569', maxHeight: '150px', overflowY: 'auto', fontFamily: 'monospace' 
+            }}>
+              <b style={{ color: '#000' }}>📄 README.md Preview:</b><br/><br/>
+              Analyse de données sur [Sujet]. <br/>
+              - Technologie : Python, Pandas, Scikit-learn<br/>
+            </div>
+            <a href="https://github.com/ton-pseudo/repo2" target="_blank" rel="noreferrer" style={{
+              alignSelf: 'flex-start', backgroundColor: '#24292f', color: '#fff', padding: '8px 16px', 
+              borderRadius: '20px', textDecoration: 'none', fontSize: '0.9rem', fontWeight: 'bold', display: 'flex', alignItems: 'center', gap: '8px'
+            }}>
+              <img src="https://cdn-icons-png.flaticon.com/512/25/25231.png" style={{ width: '16px', filter: 'invert(1)' }} />
+              Voir sur GitHub
+            </a>
+          </div>
+
+        </div>
       ),
     },
     skills: {
@@ -243,6 +304,10 @@ export default function App() {
             <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/ca/LinkedIn_logo_initials.png/960px-LinkedIn_logo_initials.png" alt="LinkedIn" style={{ width: '20px', height: '20px', objectFit: 'contain' }} />
             <a href="https://www.linkedin.com/in/ethan-orsolle-tyberg" target="_blank" style={{ color: '#3b82f6', textDecoration: 'none' }}>@ethan-orsolle-tyberg</a>
           </div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+            <img src="https://upload.wikimedia.org/wikipedia/commons/c/c2/GitHub_Invertocat_Logo.svg" alt="GitHub" style={{ width: '20px', height: '20px', objectFit: 'contain' }} />
+            <a href="" target="_blank" style={{ color: '#3b82f6', textDecoration: 'none' }}>eorstyb</a>
+          </div>
           <a href="/CV_ETHAN_ORSOLLE.pdf" target="_blank" style={{
             backgroundColor: '#3b82f6', color: '#fff', border: 'none',
             padding: '12px 24px', fontSize: '1rem', fontWeight: 'bold',
@@ -287,7 +352,7 @@ export default function App() {
         <div style={{ display: 'flex', flexDirection: 'column', gap: '25px', marginTop: '10px' }}>
           <div>
             <h3 style={{ fontSize: '1rem', color: '#ef4444', marginBottom: '15px', borderBottom: '2px solid #fee2e2', paddingBottom: '8px', fontWeight: '800', letterSpacing: '1px' }}>
-              GAMING & COMPÉTITION
+              JEUX VIDÉOS
             </h3>
             <div style={{ color: '#ef4444', fontSize: '0.8rem', fontStyle: 'italic', marginBottom: '5px' }}>
               &gt; // Game:
@@ -298,7 +363,7 @@ export default function App() {
               style={{
                 display: 'grid',
                 gridTemplateColumns: 'repeat(4, 1fr)', 
-                gap: '20px',
+                gap: '25px',
                 backgroundColor: '#fff1f2',
                 padding: '25px',
                 borderRadius: '16px',
@@ -330,7 +395,7 @@ export default function App() {
           </div>
           <div>
             <h3 style={{ fontSize: '1rem', color: '#6366f1', marginBottom: '15px', borderBottom: '2px solid #e0e7ff', paddingBottom: '8px', fontWeight: '800', letterSpacing: '1px' }}>
-              CULTURE & MANGAS
+              CULTURE
             </h3>
             <div style={{
               display: 'grid',
@@ -356,6 +421,7 @@ export default function App() {
 
   const clickZones = [
     { id: 'about', label: 'Ordinateur', displayTitle: 'À PROPOS', top: '35%', left: '15%', width: '18%', height: '22%' },
+    { id: 'projects', label: 'Documents', displayTitle: 'PROJETS', top: '48%', left: '28%', width: '18%', height: '22%' },
     { id: 'skills', label: 'Serveur', displayTitle: 'COMPÉTENCES', top: '63%', left: '41%', width: '16%', height: '27%' },
     { id: 'experience', label: 'Tableau liège', displayTitle: 'EXPÉRIENCES PRO', top: '5%', left: '12%', width: '22%', height: '28%' },
     { id: 'education', label: 'Diplômes', displayTitle: 'FORMATIONS', top: '40%', left: '45%', width: '22%', height: '15%' },
