@@ -4,7 +4,6 @@ export default function App() {
   const [activeSection, setActiveSection] = useState(null);
   const [showWelcome, setShowWelcome] = useState(true);
 
-  // --- NOUVEAU : Composant utilitaire pour les cartes de compétences ---
   const SkillCard = ({ logoUrl, name }) => (
     <div style={{
       display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
@@ -27,18 +26,13 @@ export default function App() {
     },
     skills: {
       title: "COMPÉTENCES TECHNIQUES",
-      // --- GRILLE VISUELLE DES COMPÉTENCES ---
       content: (
         <div style={{ display: 'flex', flexDirection: 'column', gap: '20px', marginTop: '10px' }}>
-          
-          {/* Cloud */}
           <h3 style={{ fontSize: '1rem', color: '#3b82f6', marginBottom: '5px', borderBottom: '1px solid #eee' }}>Cloud Providers</h3>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(110px, 1fr))', gap: '15px' }}>
             <SkillCard logoUrl="https://upload.wikimedia.org/wikipedia/commons/5/51/Google_Cloud_logo.svg" name="GCP" />
             <SkillCard logoUrl="https://upload.wikimedia.org/wikipedia/commons/9/93/Amazon_Web_Services_Logo.svg" name="AWS" />
           </div>
-
-          {/* Langages */}
           <h3 style={{ fontSize: '1rem', color: '#3b82f6', marginBottom: '5px', borderBottom: '1px solid #eee' }}>Langages</h3>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(100px, 1fr))', gap: '12px' }}>
             <SkillCard logoUrl="https://upload.wikimedia.org/wikipedia/en/3/30/Java_programming_language_logo.svg" name="Java" />
@@ -48,8 +42,6 @@ export default function App() {
             <SkillCard logoUrl="https://upload.wikimedia.org/wikipedia/commons/9/99/Unofficial_JavaScript_logo_2.svg" name="JS" />
             <SkillCard logoUrl="https://upload.wikimedia.org/wikipedia/commons/4/4c/Typescript_logo_2020.svg" name="TS" />
           </div>
-
-          {/* Outils & OS */}
           <h3 style={{ fontSize: '1rem', color: '#3b82f6', marginBottom: '5px', borderBottom: '1px solid #eee' }}>Outils & OS</h3>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(100px, 1fr))', gap: '12px' }}>
             <SkillCard logoUrl="https://upload.wikimedia.org/wikipedia/commons/4/4e/Docker_%28container_engine%29_logo.svg" name="Docker" />
@@ -57,15 +49,12 @@ export default function App() {
             <SkillCard logoUrl="https://upload.wikimedia.org/wikipedia/commons/3/35/Tux.svg" name="Linux" />
             <SkillCard logoUrl="https://upload.wikimedia.org/wikipedia/commons/5/5f/Windows_logo_-_2012.svg" name="Windows" />
           </div>
-
-          {/* Langues */}
-          <h3 style={{ fontSize: '1rem', color: '#3b82f6', marginBottom: '5px', borderBottom: '1px solid #eee' }}>Outils & OS</h3>
+          <h3 style={{ fontSize: '1rem', color: '#3b82f6', marginBottom: '5px', borderBottom: '1px solid #eee' }}>Langues</h3>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(100px, 1fr))', gap: '12px' }}>
             <SkillCard logoUrl="https://upload.wikimedia.org/wikipedia/commons/c/c3/Flag_of_France.svg" name="Natif" />
             <SkillCard logoUrl="https://upload.wikimedia.org/wikipedia/commons/8/83/Flag_of_the_United_Kingdom_%283-5%29.svg" name ="Professionnel"/>
             <SkillCard logoUrl="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9e/Flag_of_Japan.svg/960px-Flag_of_Japan.svg.png" name ="Notions"/>
          </div>
-
         </div>
       ),
     },
@@ -73,11 +62,11 @@ export default function App() {
       title: "EXPÉRIENCES PRO",
       content: (
         <div style={{ position: 'relative', borderLeft: '3px solid #bfdbfe', marginLeft: '10px', marginTop: '15px', paddingBottom: '5px' }}>
-          <div style={{ position: 'relative', paddingLeft: '30px', paddingBottom: '35px' }}>
+          <div style={{ position: 'relative', paddingLeft: '30px', paddingBottom: '35px'}}>
             <div style={{ position: 'absolute', left: '-10px', top: '0', width: '16px', height: '16px', borderRadius: '50%', backgroundColor: '#3b82f6', border: '3px solid #fff', boxShadow: '0 0 0 2px #bfdbfe' }}></div>
-            <div style={{ backgroundColor: '#eff6ff', color: '#1d4ed8', padding: '4px 12px', borderRadius: '20px', fontSize: '0.85rem', fontWeight: 'bold', display: 'inline-block', marginBottom: '10px' }}>Novembre 2018 - Avril 2021</div>
-            <h3 style={{ margin: '0 0 8px 0', fontSize: '1.25rem', color: '#0f172a' }}>Stagiaire Ingénieur d'Étude <span style={{ color: '#64748b', fontSize: '1.05rem', fontWeight: 'normal' }}>@ Infotel</span></h3>
-            <p style={{ margin: 0, color: '#475569', fontSize: '0.95rem', lineHeight: '1.6' }}>• Tierce Maintenance Applicative d'une application web Springboot<br/>• Gestion des tickets Jira<br/>• Équipe coordonnée grâce à scrumban</p>
+            <div style={{ backgroundColor: '#eff6ff', color: '#1d4ed8', padding: '4px 12px', borderRadius: '20px', fontSize: '0.85rem', fontWeight: 'bold', display: 'inline-block', marginBottom: '10px' }}>Avril 2024 - Août 2024</div>
+            <h3 style={{ margin: '0 0 8px 0', fontSize: '1.25rem', color: '#0f172a' }}>Stagiaire IA <span style={{ color: '#64748b', fontSize: '1.05rem', fontWeight: 'normal' }}>@ Osaka Metropolitan University</span></h3>
+            <p style={{ margin: 0, color: '#475569', fontSize: '0.95rem', lineHeight: '1.6' }}>• Recherche de solutions de minimisation des datasets<br/>• Scrapping et analyse de données<br/>• Optimisation et tests de LLM sur le dataset récupéré</p>
           </div>
           <div style={{ position: 'relative', paddingLeft: '30px', paddingBottom: '35px' }}>
             <div style={{ position: 'absolute', left: '-10px', top: '0', width: '16px', height: '16px', borderRadius: '50%', backgroundColor: '#3b82f6', border: '3px solid #fff', boxShadow: '0 0 0 2px #bfdbfe' }}></div>
@@ -85,11 +74,11 @@ export default function App() {
             <h3 style={{ margin: '0 0 8px 0', fontSize: '1.25rem', color: '#0f172a' }}>Alternant Développeur <span style={{ color: '#64748b', fontSize: '1.05rem', fontWeight: 'normal' }}>@ ACHGO</span></h3>
             <p style={{ margin: 0, color: '#475569', fontSize: '0.95rem', lineHeight: '1.6' }}>• Développement et maintenance d'une application web Java<br/>• Tests de projets JavaScript pour conseil d'une entreprise cliente<br/>• Création de pages web Wordpress</p>
           </div>
-          <div style={{ position: 'relative', paddingLeft: '30px' }}>
+          <div style={{ position: 'relative', paddingLeft: '30px'}}>
             <div style={{ position: 'absolute', left: '-10px', top: '0', width: '16px', height: '16px', borderRadius: '50%', backgroundColor: '#3b82f6', border: '3px solid #fff', boxShadow: '0 0 0 2px #bfdbfe' }}></div>
-            <div style={{ backgroundColor: '#eff6ff', color: '#1d4ed8', padding: '4px 12px', borderRadius: '20px', fontSize: '0.85rem', fontWeight: 'bold', display: 'inline-block', marginBottom: '10px' }}>Avril 2024 - Août 2024</div>
-            <h3 style={{ margin: '0 0 8px 0', fontSize: '1.25rem', color: '#0f172a' }}>Stagiaire IA <span style={{ color: '#64748b', fontSize: '1.05rem', fontWeight: 'normal' }}>@ Osaka Metropolitan University</span></h3>
-            <p style={{ margin: 0, color: '#475569', fontSize: '0.95rem', lineHeight: '1.6' }}>• Recherche de solutions de minimisation des datasets<br/>• Scrapping et analyse de données<br/>• Optimisation et tests de LLM sur le dataset récupéré</p>
+            <div style={{ backgroundColor: '#eff6ff', color: '#1d4ed8', padding: '4px 12px', borderRadius: '20px', fontSize: '0.85rem', fontWeight: 'bold', display: 'inline-block', marginBottom: '10px' }}>Novembre 2018 - Avril 2021</div>
+            <h3 style={{ margin: '0 0 8px 0', fontSize: '1.25rem', color: '#0f172a' }}>Stagiaire Ingénieur d'Étude <span style={{ color: '#64748b', fontSize: '1.05rem', fontWeight: 'normal' }}>@ Infotel</span></h3>
+            <p style={{ margin: 0, color: '#475569', fontSize: '0.95rem', lineHeight: '1.6' }}>• Tierce Maintenance Applicative d'une application web Springboot<br/>• Gestion des tickets Jira<br/>• Équipe coordonnée grâce à scrumban</p>
           </div>
         </div>
       ),
@@ -131,15 +120,35 @@ export default function App() {
         </div>
       ),
     },
-    contact: {
+   contact: {
       title: "CONTACT",
       content: (
-        <>
-          <b>Email :</b> orsolleeth@cy-tech.fr<br />
-          <b>Tél :</b> +33 6 51 51 73 84<br />
-          <b>LinkedIn :</b> @ethan-orsolle-tyberg<br />
-          <a href="/CV_ETHAN_ORSOLLE.pdf" target="_blank" style={{ color: '#3b82f6', textDecoration: 'none', fontWeight: 'bold', display: 'inline-block', marginTop: '10px' }}>📥 Télécharger mon CV (PDF)</a>
-        </>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '20px', marginTop: '10px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+            <img src="https://upload.wikimedia.org/wikipedia/commons/5/5c/Email_Logo_PNG.png" alt="Mail" style={{ width: '30px', height: '30px', objectFit: 'contain' }} />
+            <a href="mailto:orsolleeth@cy-tech.fr" style={{ color: '#3b82f6', textDecoration: 'none' }}>orsolleeth@cy-tech.fr</a>
+          </div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/df/Phone_icon_rotated.svg/500px-Phone_icon_rotated.svg.png" alt="Tel" style={{ width: '30px', height: '30px', objectFit: 'contain' }} />
+            <a href="tel:+33651517384" style={{ color: '#3b82f6', textDecoration: 'none' }}>+33 6 51 51 73 84</a>
+          </div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/ca/LinkedIn_logo_initials.png/960px-LinkedIn_logo_initials.png" alt="LinkedIn" style={{ width: '20px', height: '20px', objectFit: 'contain' }} />
+            <a href="https://www.linkedin.com/in/ethan-orsolle-tyberg" target="_blank" style={{ color: '#3b82f6', textDecoration: 'none' }}>@ethan-orsolle-tyberg</a>
+          </div>
+          <a href="/CV_ETHAN_ORSOLLE.pdf" target="_blank" style={{
+            backgroundColor: '#3b82f6', color: '#fff', border: 'none',
+            padding: '12px 24px', fontSize: '1rem', fontWeight: 'bold',
+            borderRadius: '25px', cursor: 'pointer', textDecoration: 'none',
+            display: 'inline-flex', alignItems: 'center', gap: '10px', marginTop: '10px',
+            boxShadow: '0 4px 10px rgba(59, 130, 246, 0.3)'
+          }}
+          onMouseOver={(e) => e.target.style.backgroundColor = '#2563eb'}
+          onMouseOut={(e) => e.target.style.backgroundColor = '#3b82f6'}
+          >
+            <span>📥</span> Télécharger mon CV (PDF)
+          </a>
+        </div>
       ),
     },
     interests: {
@@ -169,8 +178,6 @@ export default function App() {
       title: "DIVERTISSEMENTS",
       content: (
         <div style={{ display: 'flex', flexDirection: 'column', gap: '25px', marginTop: '10px' }}>
-          
-          {/* --- SECTION JEUX VIDÉOS --- */}
           <div>
             <h3 style={{ fontSize: '1rem', color: '#ef4444', marginBottom: '15px', borderBottom: '2px solid #fee2e2', paddingBottom: '8px', fontWeight: '800', letterSpacing: '1px' }}>
               GAMING & COMPÉTITION
@@ -192,8 +199,6 @@ export default function App() {
               <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/cd/Elden_Ring_logo_black.svg/960px-Elden_Ring_logo_black.svg.png" title="Elden Ring" style={{ maxHeight: '35px', maxWidth: '100px', objectFit: 'contain', margin: '0 auto' }} />
             </div>
           </div>
-
-          {/* --- SECTION CULTURE & MÉDIAS --- */}
           <div>
             <h3 style={{ fontSize: '1rem', color: '#6366f1', marginBottom: '15px', borderBottom: '2px solid #e0e7ff', paddingBottom: '8px', fontWeight: '800', letterSpacing: '1px' }}>
               CULTURE & MANGAS
@@ -218,7 +223,7 @@ export default function App() {
         </div>
       ),
     }
-}
+  };
 
   const clickZones = [
     { id: 'about', label: 'Ordinateur', displayTitle: 'À PROPOS', top: '35%', left: '15%', width: '18%', height: '22%' },
@@ -234,6 +239,17 @@ export default function App() {
     <>
       <style>{`
         .landscape-warning { display: none; }
+        
+        /* Ajustements spécifiques pour mobile en paysage */
+        @media (max-height: 500px) {
+          h1 { font-size: 1.2rem !important; margin-bottom: 5px !important; }
+          .welcome-box { padding: 15px !important; max-width: 450px !important; }
+          .welcome-box p { font-size: 0.85rem !important; margin: 10px 0 !important; }
+          .welcome-box button { padding: 8px 20px !important; font-size: 0.9rem !important; }
+          .popup-content { padding: 15px !important; }
+          h2 { font-size: 1rem !important; margin-bottom: 5px !important; }
+        }
+
         @media (orientation: portrait) and (max-width: 800px) {
           .app-content { display: none !important; }
           .landscape-warning {
@@ -253,28 +269,37 @@ export default function App() {
       </div>
 
       <div className="app-content" style={{ width: '100vw', height: '100vh', backgroundColor: '#000', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden', fontFamily: 'sans-serif' }}>
-        <div style={{ position: 'relative', width: '100%', height: '100%', maxWidth: 'calc(100vh * (16/9))', maxHeight: 'calc(100vw * (9/16))', aspectRatio: '16/9', backgroundColor: '#000', overflow: 'hidden' }}>
+        {/* On force le conteneur à ne pas dépasser 100vh/100vw */}
+        <div style={{ 
+          position: 'relative', 
+          width: '100%', height: '100%', 
+          maxWidth: 'calc(100vh * (16/9))', 
+          maxHeight: 'calc(100vw * (9/16))',
+          aspectRatio: '16/9', 
+          backgroundColor: '#000', 
+          overflow: 'hidden' 
+        }}>
           
-          <img src="/room-bg.jpg" alt="Chambre" style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', objectFit: 'cover' }} />
+          <img src="/room-bg.jpg" alt="Chambre" style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', objectFit: 'contain' }} />
 
           {/* Bulle Téléphone */}
           <div style={{ position: 'absolute', top: '64%', left: '79%', transform: 'translate(-50%, -100%)', zIndex: 15, display: 'flex', flexDirection: 'column', alignItems: 'center', pointerEvents: 'none' }}>
-            <div style={{ backgroundColor: '#fff', border: '3px solid #000', padding: '6px 12px', borderRadius: '15px', fontWeight: 'bold', fontSize: '0.8rem', boxShadow: '4px 4px 0 rgba(0,0,0,0.2)' }}>CLICK MES CONTACTS 👇</div>
+            <div style={{ backgroundColor: '#fff', border: '3px solid #000', padding: '6px 12px', borderRadius: '15px', fontWeight: 'bold', fontSize: '0.8rem', boxShadow: '4px 4px 0 rgba(0,0,0,0.2)' }}>CONTACTS 👇</div>
             <div style={{ width: 0, height: 0, borderLeft: '10px solid transparent', borderRight: '10px solid transparent', borderTop: '15px solid #fff', marginTop: '-2px' }}></div>
           </div>
 
           {clickZones.map((zone) => (
             <div key={zone.id} onClick={() => setActiveSection(zone.id)} style={{ position: 'absolute', top: zone.top, left: zone.left, width: zone.width, height: zone.height, cursor: 'pointer', zIndex: 10, display: 'flex', justifyContent: 'center' }}>
               {zone.displayTitle && (
-                <div style={{ backgroundColor: 'rgba(0,0,0,0.7)', color: '#fff', padding: '4px 10px', borderRadius: '6px', fontSize: '0.75rem', fontWeight: 'bold', marginTop: '-15px', height: 'fit-content', whiteSpace: 'nowrap' }}>{zone.displayTitle}</div>
+                <div style={{ backgroundColor: 'rgba(0,0,0,0.7)', color: '#fff', padding: '2px 8px', borderRadius: '6px', fontSize: '0.65rem', fontWeight: 'bold', marginTop: '-15px', height: 'fit-content', whiteSpace: 'nowrap' }}>{zone.displayTitle}</div>
               )}
             </div>
           ))}
 
           {showWelcome && (
-            <div style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: 'rgba(0,0,0,0.8)', backdropFilter: 'blur(8px)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 100 }}>
-              <div style={{ backgroundColor: '#fff', padding: '40px', borderRadius: '20px', maxWidth: '600px', width: '90%', textAlign: 'center' }}>
-                <h1>Bienvenue dans mon univers ! 🎮</h1>
+            <div style={{ position: 'absolute', inset: 0, backgroundColor: 'rgba(0,0,0,0.85)', backdropFilter: 'blur(8px)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 100 }}>
+              <div className="welcome-box" style={{ backgroundColor: '#fff', padding: '40px', borderRadius: '20px', maxWidth: '600px', width: '90%', textAlign: 'center', maxHeight: '90vh', overflowY: 'auto' }}>
+                <h1>Bienvenue ! 🎮</h1>
                 <p>Salut, je suis <b>Ethan Orsolle</b>. Fouillez ma chambre pour découvrir mon parcours.</p>
                 <button onClick={() => setShowWelcome(false)} style={{ backgroundColor: '#3b82f6', color: '#fff', border: 'none', padding: '16px 32px', fontSize: '1.1rem', fontWeight: 'bold', borderRadius: '30px', cursor: 'pointer' }}>Entrer dans la chambre</button>
               </div>
@@ -282,11 +307,20 @@ export default function App() {
           )}
 
           {activeSection && (
-            <div style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: 'rgba(0,0,0,0.6)', backdropFilter: 'blur(5px)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 50 }}>
-              <div style={{ backgroundColor: '#fff', padding: '35px', borderRadius: '16px', maxWidth: (activeSection === 'experience' || activeSection === 'skills' || activeSection === 'education') ? '750px' : '550px', width: '85%', position: 'relative', maxHeight: '90%', overflowY: 'auto' }}>
-                <button onClick={() => setActiveSection(null)} style={{ position: 'absolute', top: '15px', right: '20px', background: 'none', border: 'none', fontSize: '24px', cursor: 'pointer' }}>✖</button>
-                <h2 style={{ borderBottom: '3px solid #3b82f6', paddingBottom: '12px' }}>{cvData[activeSection].title}</h2>
-                <div>{cvData[activeSection].content}</div>
+            <div style={{ position: 'absolute', inset: 0, backgroundColor: 'rgba(0,0,0,0.6)', backdropFilter: 'blur(5px)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 50 }}>
+              <div className="popup-content" style={{ 
+                backgroundColor: '#fff', 
+                padding: '35px', 
+                borderRadius: '16px', 
+                maxWidth: (['experience', 'skills', 'education', 'interests', 'divertissements'].includes(activeSection)) ? '750px' : '550px', 
+                width: '85%', 
+                position: 'relative', 
+                maxHeight: '85vh', // On laisse une petite marge pour voir le fond
+                overflowY: 'auto'  // Scroll interne activé
+              }}>
+                <button onClick={() => setActiveSection(null)} style={{ position: 'absolute', top: '10px', right: '15px', background: 'none', border: 'none', fontSize: '24px', cursor: 'pointer' }}>✖</button>
+                <h2 style={{ borderBottom: '3px solid #3b82f6', paddingBottom: '12px', marginTop: 0 }}>{cvData[activeSection].title}</h2>
+                <div style={{ marginTop: '15px' }}>{cvData[activeSection].content}</div>
               </div>
             </div>
           )}
