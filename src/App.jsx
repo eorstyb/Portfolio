@@ -1,13 +1,15 @@
 import React, { useState, useEffect, useRef } from 'react';
-import SpaceInvaders from './components/SpaceInvaders'; // Vérifie que le chemin est bon !
-import MemoryGame from './components/MemoryGame';       // Vérifie que le chemin est bon !
-import { getCvData, clickZones } from './data/cvData';  // On importe nos données depuis le nouveau fichier
+import SpaceInvaders from './components/SpaceInvaders';
+import MemoryGame from './components/MemoryGame';
+import { getCvData, clickZones } from './data/cvData';
+import GalleryBoard from './components/GalleryBoard';
 
 export default function App() {
   const [activeSection, setActiveSection] = useState(null);
   const [showWelcome, setShowWelcome] = useState(true);
   const [showGame, setShowGame] = useState(false);
   const [showInvaders, setShowInvaders] = useState(false);
+  const [showGallery, setShowGallery] = useState(false);
   
   // --- INJECTION DES DONNÉES CV ---
   // On passe les fonctions setShowGame etc. à la donnée pour que les boutons marchent
@@ -130,9 +132,19 @@ export default function App() {
           </div>
 
           {clickZones.map((zone) => (
-            <div key={zone.id} onClick={() => setActiveSection(zone.id)} style={{ position: 'absolute', top: zone.top, left: zone.left, width: zone.width, height: zone.height, cursor: 'pointer', zIndex: 10, display: 'flex', justifyContent: 'center' }}>
+            <div key={zone.id} 
+              onClick={() => {
+                if (zone.id === 'experience') {
+                  setShowGallery(true);
+                } else {
+                  setActiveSection(zone.id);
+                }
+              }} 
+              style={{ position: 'absolute', top: zone.top, left: zone.left, width: zone.width, height: zone.height, cursor: 'pointer', zIndex: 10, display: 'flex', justifyContent: 'center' }}>
               {zone.displayTitle && (
-                <div style={{ backgroundColor: 'rgba(0,0,0,0.7)', color: '#fff', padding: '2px 8px', borderRadius: '6px', fontSize: '0.8rem', marginTop: '-15px', height: 'fit-content', whiteSpace: 'nowrap' }}>{zone.displayTitle}</div>
+                <div style={{ backgroundColor: 'rgba(0,0,0,0.7)', color: '#fff', padding: '2px 8px', borderRadius: '6px', fontSize: '0.8rem', marginTop: '-15px', height: 'fit-content', whiteSpace: 'nowrap' }}>
+                  {zone.id === 'experience' ? 'GALERIE' : zone.displayTitle}
+                </div>
               )}
             </div>
           ))}
@@ -165,6 +177,10 @@ export default function App() {
         <div style={{ position: 'fixed', top: 0, left: 0, width: '100vw', height: `${windowSize.height}px`, backgroundColor: 'rgba(0,0,0,0.85)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 120 }}>
           <SpaceInvaders onClose={() => setShowInvaders(false)} />
         </div>
+      )}
+      
+      {showGallery && (
+        <GalleryBoard onClose={() => setShowGallery(false)} />
       )}
     </>
   );
