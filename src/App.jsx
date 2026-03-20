@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 
 const SpaceInvaders = ({ onClose }) => {
   const canvasRef = React.useRef(null);
@@ -130,7 +130,7 @@ const SpaceInvaders = ({ onClose }) => {
     <div style={{ 
       backgroundColor: '#000', padding: '15px', borderRadius: '20px', 
       border: '4px solid #ef4444', textAlign: 'center', position: 'relative', 
-      width: '95%', maxWidth: '550px', maxHeight: '95%', // Remplacé vh par %
+      width: '95%', maxWidth: '550px', maxHeight: '95%', 
       display: 'flex', flexDirection: 'column', boxSizing: 'border-box'
     }}>
       <button onClick={onClose} style={{ position: 'absolute', top: '10px', right: '15px', background: 'none', border: 'none', fontSize: '24px', cursor: 'pointer', color: '#fff', zIndex: 10 }}>✖</button>
@@ -217,7 +217,7 @@ const MemoryGame = ({ onClose }) => {
       display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
       gap: '10px', textAlign: 'center', border: '4px solid #f59e0b', 
       boxShadow: '0 10px 30px rgba(245, 158, 11, 0.3)',
-      width: '95%', maxWidth: '550px', maxHeight: '95%', // Remplacé vh par %
+      width: '95%', maxWidth: '550px', maxHeight: '95%', 
       boxSizing: 'border-box', position: 'relative', overflowY: 'auto'
     }}>
       <button onClick={onClose} style={{ position: 'absolute', top: '10px', right: '15px', background: 'none', border: 'none', fontSize: '24px', cursor: 'pointer', color: '#888', zIndex: 10 }}>✖</button>
@@ -273,49 +273,33 @@ export default function App() {
   const [showGame, setShowGame] = useState(false);
   const [showInvaders, setShowInvaders] = useState(false);
   
-  // --- NOUVEAU : Détection iPhone et Calcul dynamique de la hauteur ---
-  const isIOS = typeof navigator !== 'undefined' && /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
-  const [isFullscreen, setIsFullscreen] = useState(false);
-  const [fullscreenSupported, setFullscreenSupported] = useState(true);
-  const [windowHeight, setWindowHeight] = useState(typeof window !== 'undefined' ? window.innerHeight : 0);
+  // --- GESTION DE L'ÉCRAN ET DU SWIPE ---
+  const scrollWrapperRef = useRef(null);
+  const [windowSize, setWindowSize] = useState({
+    width: typeof window !== 'undefined' ? window.innerWidth : 0,
+    height: typeof window !== 'undefined' ? window.innerHeight : 0
+  });
 
   useEffect(() => {
-    // Gestion dynamique de la hauteur (Règle le bug Safari)
     const handleResize = () => {
-      setWindowHeight(window.innerHeight);
+      setWindowSize({ width: window.innerWidth, height: window.innerHeight });
     };
     window.addEventListener('resize', handleResize);
-    handleResize(); // Appel initial
-
-    // Vérification du support plein écran
-    const docEl = document.documentElement;
-    const requestFS = docEl.requestFullscreen || docEl.webkitRequestFullscreen;
-    setFullscreenSupported(!!requestFS);
-
-    const handleFullscreenChange = () => {
-      setIsFullscreen(!!(document.fullscreenElement || document.webkitFullscreenElement));
-    };
-    document.addEventListener('fullscreenchange', handleFullscreenChange);
-    document.addEventListener('webkitfullscreenchange', handleFullscreenChange);
-
-    return () => {
-      window.removeEventListener('resize', handleResize);
-      document.removeEventListener('fullscreenchange', handleFullscreenChange);
-      document.removeEventListener('webkitfullscreenchange', handleFullscreenChange);
-    };
+    handleResize(); 
+    return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  const toggleFullScreen = () => {
-    const docEl = document.documentElement;
-    const requestFS = docEl.requestFullscreen || docEl.webkitRequestFullscreen;
-    const exitFS = document.exitFullscreen || document.webkitExitFullscreen;
+  const isPortrait = windowSize.height > windowSize.width;
 
-    if (!document.fullscreenElement && !document.webkitFullscreenElement) {
-      if (requestFS) requestFS.call(docEl).catch(() => {});
-    } else {
-      if (exitFS) exitFS.call(document);
+  // Recentrer la vue lors du premier chargement ou changement d'orientation
+  useEffect(() => {
+    if (scrollWrapperRef.current && isPortrait) {
+      const wrapper = scrollWrapperRef.current;
+      // Centrer la vue (milieu de la chambre)
+      wrapper.scrollLeft = (wrapper.scrollWidth - wrapper.clientWidth) / 2;
+      wrapper.scrollTop = (wrapper.scrollHeight - wrapper.clientHeight) / 2;
     }
-  };
+  }, [windowSize.width, windowSize.height, isPortrait]);
 
   const SkillCard = ({ logoUrl, name }) => (
     <div style={{
@@ -614,11 +598,30 @@ export default function App() {
     { id: 'divertissements', label: 'Sunny', displayTitle: 'DIVERTISSEMENTS', top: '10%', left: '72%', width: '25%', height: '30%' },
   ];
 
+  // Le style dynamique pour la "chambre". Si portrait, on force un grand format zoomé.
+  const roomStyle = isPortrait ? {
+    position: 'relative',
+    height: `${windowSize.height * 1.5}px`, // 150% de hauteur pour scroller verticalement
+    width: `${windowSize.height * 1.5 * (16 / 9)}px`, // Conserve le ratio 16:9
+    margin: 0,
+    flexShrink: 0
+  } : {
+    position: 'relative',
+    width: '100%',
+    height: '100%',
+    maxWidth: `calc(${windowSize.height}px * (16/9))`,
+    maxHeight: '100vw',
+    aspectRatio: '16/9',
+    margin: 'auto',
+    flexShrink: 0
+  };
+
   return (
     <>
       <style>{`
         body { margin: 0; padding: 0; background-color: #000; overflow: hidden; }
-        .landscape-warning { display: none; }
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
         
         @media (max-height: 500px) {
           h1 { font-size: 1.2rem !important; margin-bottom: 5px !important; }
@@ -628,62 +631,25 @@ export default function App() {
           .popup-content { padding: 15px !important; }
           h2 { font-size: 1rem !important; margin-bottom: 5px !important; }
         }
-
-        @media (orientation: portrait) and (max-width: 800px) {
-          .app-content { display: none !important; }
-          .landscape-warning {
-            display: flex !important; flex-direction: column; align-items: center; justify-content: center;
-            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-            background-color: #0f172a; color: white; text-align: center; padding: 2rem; z-index: 9999;
-          }
-          .rotate-icon { font-size: 4rem; animation: rotatePhone 2s infinite ease-in-out; }
-          @keyframes rotatePhone { 0% { transform: rotate(0deg); } 50% { transform: rotate(-90deg); } 100% { transform: rotate(0deg); } }
-        }
         @keyframes casinoSpin { 0% { transform: translateY(0); } 100% { transform: translateY(-10px); } }
       `}</style>
 
-      <div className="landscape-warning">
-        <div className="rotate-icon">📱</div>
-        <h2>Mode Paysage Requis</h2>
-        <p>Pour explorer la chambre, pivotez votre téléphone.</p>
-      </div>
-
-      {/* --- Le bouton s'affiche partout SAUF sur iPhone/iPad --- */}
-      {fullscreenSupported && !isIOS && (
-        <button 
-          onClick={toggleFullScreen}
-          style={{
-            position: 'fixed', top: '20px', right: '20px', zIndex: 9999,
-            backgroundColor: 'rgba(255, 255, 255, 0.1)', backdropFilter: 'blur(5px)',
-            border: '2px solid rgba(255, 255, 255, 0.3)', color: '#fff', borderRadius: '12px',
-            width: '45px', height: '45px', display: 'flex', alignItems: 'center', justifyContent: 'center',
-            cursor: 'pointer', transition: 'all 0.2s ease', boxShadow: '0 4px 10px rgba(0,0,0,0.3)'
-          }}
-          title={isFullscreen ? "Quitter le plein écran" : "Plein écran"}
-        >
-          {isFullscreen ? (
-            <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M8 3v3a2 2 0 0 1-2 2H3m18 0h-3a2 2 0 0 1-2-2V3m0 18v-3a2 2 0 0 1 2-2h3M3 16h3a2 2 0 0 1 2 2v3"></path>
-            </svg>
-          ) : (
-            <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path>
-            </svg>
-          )}
-        </button>
-      )}
-
-      {/* --- Utilisation dynamique de la hauteur via windowHeight --- */}
-      <div className="app-content" style={{ width: '100vw', height: `${windowHeight}px`, backgroundColor: '#000', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden', fontFamily: 'sans-serif' }}>
-        <div style={{ 
-          position: 'relative', 
-          width: '100%', height: '100%', 
-          maxWidth: `calc(${windowHeight}px * (16/9))`, // Respecte la hauteur exacte
-          maxHeight: 'calc(100vw * (9/16))',
-          aspectRatio: '16/9', 
+      {/* Wrapper principal qui gère le scroll sur mobile */}
+      <div 
+        ref={scrollWrapperRef}
+        className="hide-scrollbar" 
+        style={{ 
+          width: '100vw', 
+          height: `${windowSize.height}px`, 
           backgroundColor: '#000', 
-          overflow: 'hidden' 
-        }}>
+          overflow: 'auto', 
+          display: isPortrait ? 'block' : 'flex', 
+          alignItems: 'center', 
+          justifyContent: 'center',
+          WebkitOverflowScrolling: 'touch' // Rendu natif ultra fluide sur iPhone
+        }}
+      >
+        <div style={roomStyle}>
           
           <img src="/room-bg.jpg" alt="Chambre" style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', objectFit: 'contain' }} />
 
@@ -699,49 +665,45 @@ export default function App() {
               )}
             </div>
           ))}
-
-          {showWelcome && (
-            <div style={{ position: 'absolute', inset: 0, backgroundColor: 'rgba(0,0,0,0.85)', backdropFilter: 'blur(8px)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 100 }}>
-              <div className="welcome-box" style={{ backgroundColor: '#fff', padding: '40px', borderRadius: '20px', maxWidth: '600px', width: '90%', textAlign: 'center', maxHeight: '90%', overflowY: 'auto' }}>
-                <h1>Bienvenue ! 🎮</h1>
-                <p>Salut, je suis <b>Ethan Orsolle</b>. Fouillez ma chambre pour découvrir mon parcours.</p>
-                <button onClick={() => setShowWelcome(false)} style={{ backgroundColor: '#3b82f6', color: '#fff', border: 'none', padding: '16px 32px', fontSize: '1.1rem', fontWeight: 'bold', borderRadius: '30px', cursor: 'pointer' }}>Entrer dans la chambre</button>
-              </div>
-            </div>
-          )}
-
-          {activeSection && cvData[activeSection] && (
-            <div style={{ position: 'absolute', inset: 0, backgroundColor: 'rgba(0,0,0,0.6)', backdropFilter: 'blur(5px)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 50 }}>
-              <div className="popup-content" style={{ 
-                backgroundColor: '#fff', 
-                padding: '35px', 
-                borderRadius: '16px', 
-                maxWidth: (['experience', 'skills', 'education', 'interests', 'divertissements'].includes(activeSection)) ? '750px' : '550px', 
-                width: '85%', 
-                position: 'relative', 
-                maxHeight: `calc(${windowHeight}px * 0.85)`, // 85% de la VRAIE hauteur disponible
-                overflowY: 'auto'
-              }}>
-                <button onClick={() => setActiveSection(null)} style={{ position: 'absolute', top: '10px', right: '15px', background: 'none', border: 'none', fontSize: '24px', cursor: 'pointer' }}>✖</button>
-                <h2 style={{ borderBottom: '3px solid #3b82f6', paddingBottom: '12px', marginTop: 0 }}>{cvData[activeSection].title}</h2>
-                <div style={{ marginTop: '15px' }}>{cvData[activeSection].content}</div>
-              </div>
-            </div>
-          )}
-
-          {showGame && (
-            <div style={{ position: 'absolute', inset: 0, backgroundColor: 'rgba(0,0,0,0.85)', backdropFilter: 'blur(10px)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 110 }}>
-              <MemoryGame onClose={() => setShowGame(false)} />
-            </div>
-          )}
-          
-          {showInvaders && (
-            <div style={{ position: 'absolute', inset: 0, backgroundColor: 'rgba(0,0,0,0.85)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 120 }}>
-              <SpaceInvaders onClose={() => setShowInvaders(false)} />
-            </div>
-          )}
         </div>
       </div>
+
+      {/* NOUVEAU : Tous les popups sont en position 'fixed' pour flotter au-dessus du scroll de la chambre */}
+      {showWelcome && (
+        <div style={{ position: 'fixed', top: 0, left: 0, width: '100vw', height: `${windowSize.height}px`, backgroundColor: 'rgba(0,0,0,0.85)', backdropFilter: 'blur(8px)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 100 }}>
+          <div className="welcome-box" style={{ backgroundColor: '#fff', padding: '40px', borderRadius: '20px', maxWidth: '600px', width: '90%', textAlign: 'center', maxHeight: '90%', overflowY: 'auto' }}>
+            <h1>Bienvenue ! 🎮</h1>
+            <p>Salut, je suis <b>Ethan Orsolle</b>.<br/>{isPortrait ? "Swipe pour explorer la chambre et clique sur les objets !" : "Fouillez ma chambre pour découvrir mon parcours."}</p>
+            <button onClick={() => setShowWelcome(false)} style={{ backgroundColor: '#3b82f6', color: '#fff', border: 'none', padding: '16px 32px', fontSize: '1.1rem', fontWeight: 'bold', borderRadius: '30px', cursor: 'pointer', marginTop: '10px' }}>Entrer dans la chambre</button>
+          </div>
+        </div>
+      )}
+
+      {activeSection && cvData[activeSection] && (
+        <div style={{ position: 'fixed', top: 0, left: 0, width: '100vw', height: `${windowSize.height}px`, backgroundColor: 'rgba(0,0,0,0.6)', backdropFilter: 'blur(5px)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 50 }}>
+          <div className="popup-content" style={{ 
+            backgroundColor: '#fff', padding: '35px', borderRadius: '16px', 
+            maxWidth: (['experience', 'skills', 'education', 'interests', 'divertissements'].includes(activeSection)) ? '750px' : '550px', 
+            width: '85%', position: 'relative', maxHeight: `calc(${windowSize.height}px * 0.85)`, overflowY: 'auto'
+          }}>
+            <button onClick={() => setActiveSection(null)} style={{ position: 'absolute', top: '10px', right: '15px', background: 'none', border: 'none', fontSize: '24px', cursor: 'pointer' }}>✖</button>
+            <h2 style={{ borderBottom: '3px solid #3b82f6', paddingBottom: '12px', marginTop: 0 }}>{cvData[activeSection].title}</h2>
+            <div style={{ marginTop: '15px' }}>{cvData[activeSection].content}</div>
+          </div>
+        </div>
+      )}
+
+      {showGame && (
+        <div style={{ position: 'fixed', top: 0, left: 0, width: '100vw', height: `${windowSize.height}px`, backgroundColor: 'rgba(0,0,0,0.85)', backdropFilter: 'blur(10px)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 110 }}>
+          <MemoryGame onClose={() => setShowGame(false)} />
+        </div>
+      )}
+      
+      {showInvaders && (
+        <div style={{ position: 'fixed', top: 0, left: 0, width: '100vw', height: `${windowSize.height}px`, backgroundColor: 'rgba(0,0,0,0.85)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 120 }}>
+          <SpaceInvaders onClose={() => setShowInvaders(false)} />
+        </div>
+      )}
     </>
   );
 }
