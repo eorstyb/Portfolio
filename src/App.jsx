@@ -1,6 +1,155 @@
 import React, { useState, useEffect } from 'react';
 
-// --- COMPOSANT : Le Jeu de Memory ---
+const SpaceInvaders = ({ onClose }) => {
+  const canvasRef = React.useRef(null);
+  const [isDead, setIsDead] = useState(false);
+  const gameRef = React.useRef({ score: 0 }); // Pour garder le score accessible au Game Over
+  
+  // Logos
+  const PLAYER_LOGO = "https://upload.wikimedia.org/wikipedia/commons/a/a7/React-icon.svg";
+  const ENEMY_LOGOS = [
+    "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/Docker-svgrepo-com.svg/1280px-Docker-svgrepo-com.svg.png",
+    "https://upload.wikimedia.org/wikipedia/commons/thumb/0/04/Terraform_Logo.svg/3840px-Terraform_Logo.svg.png",
+    "https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/DigitalOcean_logo.svg/512px-DigitalOcean_logo.svg.png",
+    "https://upload.wikimedia.org/wikipedia/commons/c/c3/Python-logo-notext.svg",
+    "https://upload.wikimedia.org/wikipedia/fr/thumb/2/2e/Java_Logo.svg/1280px-Java_Logo.svg.png"
+  ];
+
+  useEffect(() => {
+    let isInitialized = true; // Verrou anti-double exécution
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+
+    // État du moteur de jeu
+    const state = {
+      player: { x: 230, y: 380, w: 40, h: 40, speed: 8, dx: 0 },
+      bullets: [],
+      enemies: [],
+      keys: { left: false, right: false },
+      score: 0,
+      lives: 3,
+      spawnTimer: 0,
+      lastShot: 0,
+      frameId: null
+    };
+
+    const pImg = new Image(); pImg.src = PLAYER_LOGO;
+    const eImgs = ENEMY_LOGOS.map(url => { const img = new Image(); img.src = url; return img; });
+
+    const update = () => {
+      // Mouvement Joueur
+      if (state.keys.left && state.player.x > 0) state.player.x -= state.player.speed;
+      if (state.keys.right && state.player.x < canvas.width - state.player.w) state.player.x += state.player.speed;
+
+      // Spawn
+      state.spawnTimer++;
+      if (state.spawnTimer > 35) {
+        state.enemies.push({
+          x: Math.random() * (canvas.width - 35), y: -40, w: 35, h: 35,
+          sy: 2 + Math.random() * 2, sx: (Math.random() - 0.5) * 2,
+          img: eImgs[Math.floor(Math.random() * eImgs.length)]
+        });
+        state.spawnTimer = 0;
+      }
+
+      // Balles
+      for (let i = state.bullets.length - 1; i >= 0; i--) {
+        state.bullets[i].y -= 10;
+        if (state.bullets[i].y < 0) state.bullets.splice(i, 1);
+      }
+
+      // Ennemis & Collisions
+      for (let i = state.enemies.length - 1; i >= 0; i--) {
+        const en = state.enemies[i];
+        en.y += en.sy;
+        en.x += en.sx;
+
+        // Collision Balle
+        state.bullets.forEach((b, bi) => {
+          if (b.x < en.x + en.w && b.x + 5 > en.x && b.y < en.y + en.h && b.y + 10 > en.y) {
+            state.enemies.splice(i, 1);
+            state.bullets.splice(bi, 1);
+            state.score += 10;
+            gameRef.current.score = state.score;
+          }
+        });
+
+        // Collision Joueur
+        if (en.y + en.h > state.player.y && en.x < state.player.x + state.player.w && en.x + en.w > state.player.x) {
+          state.enemies.splice(i, 1);
+          state.lives -= 1;
+          if (state.lives <= 0) {
+            cancelAnimationFrame(state.frameId);
+            setIsDead(true);
+            return;
+          }
+        }
+        if (en.y > canvas.height) state.enemies.splice(i, 1);
+      }
+    };
+
+    const draw = () => {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = "white"; ctx.font = "bold 16px monospace";
+      ctx.fillText(`SCORE: ${state.score}`, 20, 30);
+      ctx.fillStyle = "#ef4444";
+      ctx.fillText(`VIES: ${"❤️".repeat(Math.max(0, state.lives))}`, canvas.width - 130, 30);
+      ctx.drawImage(pImg, state.player.x, state.player.y, state.player.w, state.player.h);
+      ctx.fillStyle = '#b58a1c';
+      state.bullets.forEach(b => ctx.fillRect(b.x, b.y, 4, 12));
+      state.enemies.forEach(en => ctx.drawImage(en.img, en.x, en.y, en.w, en.h));
+    };
+
+    const loop = () => {
+      if (!isInitialized) return;
+      update();
+      draw();
+      state.frameId = requestAnimationFrame(loop);
+    };
+
+    const onKeyDown = (e) => {
+      if (e.key === 'ArrowLeft') state.keys.left = true;
+      if (e.key === 'ArrowRight') state.keys.right = true;
+      if ((e.key === ' ' || e.key === 'ArrowUp') && Date.now() - state.lastShot > 200) {
+        state.bullets.push({ x: state.player.x + 18, y: state.player.y });
+        state.lastShot = Date.now();
+        e.preventDefault();
+      }
+    };
+    const onKeyUp = (e) => {
+      if (e.key === 'ArrowLeft') state.keys.left = false;
+      if (e.key === 'ArrowRight') state.keys.right = false;
+    };
+
+    window.addEventListener('keydown', onKeyDown);
+    window.addEventListener('keyup', onKeyUp);
+    state.frameId = requestAnimationFrame(loop);
+
+    return () => {
+      isInitialized = false; // Désactive le loop immédiatement
+      window.removeEventListener('keydown', onKeyDown);
+      window.removeEventListener('keyup', onKeyUp);
+      cancelAnimationFrame(state.frameId);
+    };
+  }, []);
+
+  return (
+    <div style={{ backgroundColor: '#000', padding: '20px', borderRadius: '20px', border: '4px solid #ef4444', textAlign: 'center', position: 'relative', width: '550px' }}>
+      <button onClick={onClose} style={{ position: 'absolute', top: '10px', right: '15px', background: 'none', border: 'none', fontSize: '24px', cursor: 'pointer', color: '#fff', zIndex: 10 }}>✖</button>
+      <h2 style={{ color: '#ef4444', margin: '0 0 10px 0', fontFamily: 'monospace' }}>CLOUD ATTACK</h2>
+      <canvas ref={canvasRef} width={500} height={450} style={{ backgroundColor: '#020617', borderRadius: '10px', border: '2px solid #1e293b' }} />
+      {isDead && (
+        <div style={{ position: 'absolute', inset: 0, backgroundColor: 'rgba(0,0,0,0.9)', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', borderRadius: '16px' }}>
+          <h2 style={{ color: '#ef4444', fontSize: '2.5rem' }}>GAME OVER</h2>
+          <p style={{ color: '#fff' }}>Score: {gameRef.current.score}</p>
+          <button onClick={onClose} style={{ backgroundColor: '#ef4444', color: '#fff', border: 'none', padding: '12px 30px', borderRadius: '30px', cursor: 'pointer', fontWeight: 'bold', marginTop: '15px' }}>QUITTER</button>
+        </div>
+      )}
+    </div>
+  );
+};
+
 const MemoryGame = ({ onClose }) => {
   const initialCards = [
     { id: 1, type: 'java', img: 'https://upload.wikimedia.org/wikipedia/fr/thumb/2/2e/Java_Logo.svg/1280px-Java_Logo.svg.png' }, 
@@ -57,44 +206,71 @@ const MemoryGame = ({ onClose }) => {
 
   return (
     <div style={{
-      backgroundColor: '#0f172a', padding: '20px', borderRadius: '16px', color: '#fff',
-      display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '15px', textAlign: 'center',
-      border: '4px solid #f59e0b', boxShadow: '0 10px 30px rgba(245, 158, 11, 0.3)',
-      maxHeight: '90vh', overflowY: 'auto', position: 'relative'
+      backgroundColor: '#0f172a', 
+      padding: '20px', 
+      borderRadius: '16px', 
+      color: '#fff',
+      display: 'flex', 
+      flexDirection: 'column', 
+      alignItems: 'center', 
+      justifyContent: 'center', // Centre le contenu verticalement (pour le loading)
+      gap: '15px', 
+      textAlign: 'center',
+      border: '4px solid #f59e0b', 
+      boxShadow: '0 10px 30px rgba(245, 158, 11, 0.3)',
+      width: '550px',       // Largeur fixe pour éviter le changement de taille
+      minHeight: '450px',   // Hauteur minimale fixe pour éviter le saut au chargement
+      maxHeight: '90vh', 
+      overflowY: 'auto', 
+      position: 'relative'
     }}>
-      <button onClick={onClose} style={{ position: 'absolute', top: '10px', right: '15px', background: 'none', border: 'none', fontSize: '24px', cursor: 'pointer', color: '#888' }}>✖</button>
+      <button onClick={onClose} style={{ position: 'absolute', top: '10px', right: '15px', background: 'none', border: 'none', fontSize: '24px', cursor: 'pointer', color: '#888', zIndex: 10 }}>✖</button>
       
       {loading ? (
-        <div style={{ padding: '40px' }}>
-          <div style={{ fontSize: '3rem', animation: 'casinoSpin 0.3s infinite linear' }}>🎰</div>
-          <div style={{ fontSize: '1.2rem', fontWeight: 'bold', marginTop: '10px' }}>Mélange du deck...</div>
-          <style>{`@keyframes casinoSpin { 0% { transform: translateY(0); } 100% { transform: translateY(-10px); } }`}</style>
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '20px' }}>
+          <div style={{ fontSize: '4rem', animation: 'casinoSpin 0.3s infinite linear' }}>🎰</div>
+          <div style={{ fontSize: '1.2rem', fontWeight: 'bold', letterSpacing: '2px', color: '#f59e0b' }}>MÉLANGE DU DECK...</div>
+          <div style={{ fontSize: '0.8rem', color: '#64748b' }}>Préparez vos réflexes</div>
         </div>
       ) : isGameOver ? (
-        <div style={{ padding: '20px' }}>
-          <div style={{ fontSize: '3rem' }}>🎉</div>
-          <h2 style={{ color: '#f59e0b' }}>Bravo !</h2>
-          <p>Deck complété en {moves} coups.</p>
-          <button onClick={onClose} style={{ backgroundColor: '#f59e0b', padding: '10px 20px', borderRadius: '20px', border: 'none', fontWeight: 'bold', cursor: 'pointer', color: '#0f172a' }}>Quitter</button>
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '20px' }}>
+          <div style={{ fontSize: '4rem' }}>🎉</div>
+          <h2 style={{ color: '#f59e0b', margin: 0, fontSize: '2rem' }}>VICTOIRE !</h2>
+          <p style={{ fontSize: '1.1rem' }}>Deck complété en <span style={{ color: '#f59e0b', fontWeight: 'bold' }}>{moves}</span> coups.</p>
+          <button onClick={onClose} style={{ backgroundColor: '#f59e0b', padding: '12px 30px', borderRadius: '30px', border: 'none', fontWeight: 'bold', cursor: 'pointer', color: '#0f172a', fontSize: '1rem', transition: 'transform 0.2s' }} onMouseOver={(e) => e.target.style.transform = 'scale(1.1)'} onMouseOut={(e) => e.target.style.transform = 'scale(1)'}>QUITTER</button>
         </div>
       ) : (
         <>
-          <h2 style={{ fontSize: '1.4rem', color: '#f59e0b', margin: 0 }}>Memory Portfolio</h2>
-          <div style={{ fontSize: '0.8rem' }}>Coups : {moves} | Paires : {matched.length / 2} / 9</div>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(6, 1fr)', gap: '8px', marginTop: '10px', maxWidth: '500px', width: '100%' }}>
+          <h2 style={{ fontSize: '1.4rem', color: '#f59e0b', margin: 0, textTransform: 'uppercase' }}>Memory</h2>
+          <div style={{ fontSize: '0.9rem', backgroundColor: '#1e293b', padding: '5px 15px', borderRadius: '20px', border: '1px solid #334155' }}>
+            Coups : <span style={{ color: '#f59e0b', fontWeight: 'bold' }}>{moves}</span> | Paires : <span style={{ color: '#f59e0b', fontWeight: 'bold' }}>{matched.length / 2}</span> / 9
+          </div>
+          <div style={{ 
+            display: 'grid', 
+            gridTemplateColumns: 'repeat(6, 1fr)', 
+            gap: '8px', 
+            marginTop: '10px', 
+            width: '100%' 
+          }}>
             {cards.map((card, index) => {
               const isFlipped = flipped.includes(index) || matched.includes(index);
               return (
                 <div key={index} onClick={() => handleCardClick(index)} style={{
-                  aspectRatio: '1', backgroundColor: isFlipped ? '#fff' : '#1e293b',
-                  borderRadius: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  cursor: 'pointer', border: '2px solid #334155', transition: 'transform 0.4s',
+                  aspectRatio: '1', 
+                  backgroundColor: isFlipped ? '#fff' : '#1e293b',
+                  borderRadius: '8px', 
+                  display: 'flex', 
+                  alignItems: 'center', 
+                  justifyContent: 'center',
+                  cursor: 'pointer', 
+                  border: isFlipped ? '2px solid #f59e0b' : '2px solid #334155', 
+                  transition: 'transform 0.4s, background-color 0.2s',
                   transform: isFlipped ? 'rotateY(180deg)' : 'rotateY(0deg)',
                 }}>
                   {isFlipped ? (
-                    <img src={card.img} alt={card.type} style={{ width: '80%', height: '80%', objectFit: 'contain', transform: 'rotateY(180deg)' }} />
+                    <img src={card.img} alt={card.type} style={{ width: '85%', height: '85%', objectFit: 'contain', transform: 'rotateY(180deg)' }} />
                   ) : (
-                    <span style={{ fontSize: '1.2rem', color: '#475569' }}>❓</span>
+                    <span style={{ fontSize: '1.2rem', color: '#475569', fontWeight: 'bold' }}>?</span>
                   )}
                 </div>
               );
@@ -110,6 +286,7 @@ export default function App() {
   const [activeSection, setActiveSection] = useState(null);
   const [showWelcome, setShowWelcome] = useState(true);
   const [showGame, setShowGame] = useState(false);
+  const [showInvaders, setShowInvaders] = useState(false);
 
   const SkillCard = ({ logoUrl, name }) => (
     <div style={{
@@ -143,16 +320,15 @@ export default function App() {
           }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
               <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" alt="Repo Logo" style={{ width: '40px', height: '40px' }} />
-              <h3 style={{ margin: 0, color: '#0f172a', fontSize: '1.2rem' }}>Nom_Du_Repo_1</h3>
+              <h3 style={{ margin: 0, color: '#0f172a', fontSize: '1.2rem' }}>projet-kosmio-front</h3>
             </div>
             <div style={{ 
               backgroundColor: '#fff', border: '1px solid #cbd5e1', borderRadius: '8px', padding: '15px', 
               fontSize: '0.85rem', color: '#475569', maxHeight: '150px', overflowY: 'auto', fontFamily: 'monospace' 
             }}>
-              <b style={{ color: '#000' }}>📄 README.md Preview:</b><br/><br/>
-              Ce projet est une application de [Description courte]. <br/>
-              - Technologie : React, Firebase<br/>
-              - Fonctionnalité : Authentification, CRUD...
+              <b style={{ color: '#000' }}>📄 README.md</b><br/><br/>
+              Ce projet est une application d'interface web React permettant d'uploader des documents PDF, de déclencher la génération de fiches solutions et secteurs via le pipeline RAG du backend, puis de visualiser, éditer et gérer ces fiches au format Markdown.
+
             </div>
             <a href="https://github.com/abdemeh/projet-kosmio-front" target="_blank" rel="noreferrer" style={{
               alignSelf: 'flex-start', backgroundColor: '#24292f', color: '#fff', padding: '8px 16px', 
@@ -170,17 +346,16 @@ export default function App() {
           }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
               <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" alt="Repo Logo" style={{ width: '40px', height: '40px' }} />
-              <h3 style={{ margin: 0, color: '#0f172a', fontSize: '1.2rem' }}>Nom_Du_Repo_2</h3>
+              <h3 style={{ margin: 0, color: '#0f172a', fontSize: '1.2rem' }}>PokemonDrafter</h3>
             </div>
             <div style={{ 
               backgroundColor: '#fff', border: '1px solid #cbd5e1', borderRadius: '8px', padding: '15px', 
               fontSize: '0.85rem', color: '#475569', maxHeight: '150px', overflowY: 'auto', fontFamily: 'monospace' 
             }}>
-              <b style={{ color: '#000' }}>📄 README.md Preview:</b><br/><br/>
-              Analyse de données sur [Sujet]. <br/>
-              - Technologie : Python, Pandas, Scikit-learn<br/>
+              <b style={{ color: '#000' }}>📄 README.md</b><br/><br/>
+              Application web micro-services simulant des combats pokemon en réseau, permettant la gestion des pokemon, équipes.
             </div>
-            <a href="https://github.com/ton-pseudo/repo2" target="_blank" rel="noreferrer" style={{
+            <a href="https://github.com/SEMGOODD/PokemonDrafter" target="_blank" rel="noreferrer" style={{
               alignSelf: 'flex-start', backgroundColor: '#24292f', color: '#fff', padding: '8px 16px', 
               borderRadius: '20px', textDecoration: 'none', fontSize: '0.9rem', fontWeight: 'bold', display: 'flex', alignItems: 'center', gap: '8px'
             }}>
@@ -188,7 +363,17 @@ export default function App() {
               Voir sur GitHub
             </a>
           </div>
-
+<div 
+  onClick={() => { setShowInvaders(true); setActiveSection(null); }}
+  style={{
+    marginTop: '15px', padding: '15px', backgroundColor: '#fee2e2', borderRadius: '16px',
+    border: '2px dashed #ef4444', textAlign: 'center', cursor: 'pointer', transition: '0.2s'
+  }}
+  onMouseOver={(e) => e.currentTarget.style.transform = 'scale(1.02)'}
+  onMouseOut={(e) => e.currentTarget.style.transform = 'scale(1)'}
+>
+  🚀 <b>NOUVEAU : Jouer à Space Invaders</b>
+</div>
         </div>
       ),
     },
@@ -523,6 +708,11 @@ export default function App() {
               <MemoryGame onClose={() => setShowGame(false)} />
             </div>
           )}
+          {showInvaders && (
+  <div style={{ position: 'absolute', inset: 0, backgroundColor: 'rgba(0,0,0,0.85)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 120 }}>
+    <SpaceInvaders onClose={() => setShowInvaders(false)} />
+  </div>
+)}
         </div>
       </div>
     </>
