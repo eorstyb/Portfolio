@@ -274,25 +274,39 @@ export default function App() {
   const [showInvaders, setShowInvaders] = useState(false);
   
   // --- NOUVEAU : État et logique du Plein Écran ---
+  // --- État et logique du Plein Écran ---
   const [isFullscreen, setIsFullscreen] = useState(false);
+
+  // Détection basique d'un appareil iOS
+  const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
 
   useEffect(() => {
     const handleFullscreenChange = () => {
-      setIsFullscreen(!!document.fullscreenElement);
+      setIsFullscreen(!!(document.fullscreenElement || document.webkitFullscreenElement));
     };
     document.addEventListener('fullscreenchange', handleFullscreenChange);
-    return () => document.removeEventListener('fullscreenchange', handleFullscreenChange);
+    document.addEventListener('webkitfullscreenchange', handleFullscreenChange);
+    return () => {
+      document.removeEventListener('fullscreenchange', handleFullscreenChange);
+      document.removeEventListener('webkitfullscreenchange', handleFullscreenChange);
+    };
   }, []);
 
   const toggleFullScreen = () => {
-    if (!document.fullscreenElement) {
-      document.documentElement.requestFullscreen().catch(err => {
-        console.error(`Erreur d'activation du plein écran: ${err.message}`);
-      });
+    if (isIOS) {
+      // Message spécifique pour les utilisateurs iPhone
+      alert("📱 Sur iPhone, pour jouer en plein écran :\n\n1. Appuyez sur l'icône 'Partager' (le carré avec la flèche) en bas de l'écran.\n2. Choisissez 'Sur l'écran d'accueil'.\n3. Ouvrez l'application depuis votre écran d'accueil !");
+      return;
+    }
+
+    const docEl = document.documentElement;
+    const requestFS = docEl.requestFullscreen || docEl.webkitRequestFullscreen;
+    const exitFS = document.exitFullscreen || document.webkitExitFullscreen;
+
+    if (!document.fullscreenElement && !document.webkitFullscreenElement) {
+      if (requestFS) requestFS.call(docEl).catch(() => {});
     } else {
-      if (document.exitFullscreen) {
-        document.exitFullscreen();
-      }
+      if (exitFS) exitFS.call(document);
     }
   };
 
