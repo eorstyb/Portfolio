@@ -18,7 +18,7 @@ export default function App() {
   const [displayedText2, setDisplayedText2] = useState("");
   const [introPhase, setIntroPhase] = useState(0); 
 
-  const fullText1 = "Bonjour Ethan Orsolle enchanté, si vous tombez sur ce site c'est que vous voulez en apprendre plus sur moi. Alors, quoi de mieux que de vous faire entrer dans mon univers.";
+  const fullText1 = "Bonjour, Ethan Orsolle enchanté, si vous tombez sur ce site c'est que vous voulez en apprendre plus sur moi. Alors, quoi de mieux que de vous faire entrer dans mon univers.";
   const fullText2 = "Bienvenue dans ma chambre...";
 
   useEffect(() => {
