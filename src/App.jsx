@@ -1,8 +1,8 @@
-import React, { useState, useEffect, useRef, useLayoutEffect } from 'react';import SpaceInvaders from './components/SpaceInvaders';
+import React, { useState, useEffect, useRef } from 'react';
+import SpaceInvaders from './components/SpaceInvaders';
 import MemoryGame from './components/MemoryGame';
 import { getCvData, clickZones } from './data/cvData';
 import GalleryBoard from './components/GalleryBoard';
-
 
 export default function App() {
   const [activeSection, setActiveSection] = useState(null);
@@ -52,14 +52,12 @@ export default function App() {
     height: typeof window !== 'undefined' ? window.innerHeight : 0
   });
 
-  // --- CENTRAGE INSTANTANÉ (Sans effet de glissement) ---
-  useLayoutEffect(() => {
-    if (scrollWrapperRef.current && isPortrait) {
-      const wrapper = scrollWrapperRef.current;
-      // Centrage horizontal immédiat avant l'affichage à l'écran
-      wrapper.scrollLeft = (wrapper.scrollWidth - wrapper.clientWidth) / 2;
-    }
-  }, [windowSize.width, windowSize.height, isPortrait]);
+  useEffect(() => {
+    const handleResize = () => setWindowSize({ width: window.innerWidth, height: window.innerHeight });
+    window.addEventListener('resize', handleResize);
+    handleResize(); 
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   const isPortrait = windowSize.height > windowSize.width;
   
@@ -86,7 +84,7 @@ export default function App() {
     if (scrollWrapperRef.current && isPortrait && !showWelcome) {
       const wrapper = scrollWrapperRef.current;
       // Centre uniquement horizontalement au démarrage
-      wrapper.scrollLeft = (wrapper.scrollWidth - wrapper.clientWidth) / 2;
+      wrapper.scrollLeft = 0;
     }
   }, [windowSize.width, windowSize.height, isPortrait, showWelcome]);
 
