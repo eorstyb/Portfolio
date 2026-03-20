@@ -130,7 +130,7 @@ const SpaceInvaders = ({ onClose }) => {
     <div style={{ 
       backgroundColor: '#000', padding: '15px', borderRadius: '20px', 
       border: '4px solid #ef4444', textAlign: 'center', position: 'relative', 
-      width: '95vw', maxWidth: '550px', maxHeight: '95vh', 
+      width: '95%', maxWidth: '550px', maxHeight: '95%', // Remplacé vh par %
       display: 'flex', flexDirection: 'column', boxSizing: 'border-box'
     }}>
       <button onClick={onClose} style={{ position: 'absolute', top: '10px', right: '15px', background: 'none', border: 'none', fontSize: '24px', cursor: 'pointer', color: '#fff', zIndex: 10 }}>✖</button>
@@ -217,7 +217,7 @@ const MemoryGame = ({ onClose }) => {
       display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
       gap: '10px', textAlign: 'center', border: '4px solid #f59e0b', 
       boxShadow: '0 10px 30px rgba(245, 158, 11, 0.3)',
-      width: '95vw', maxWidth: '550px', maxHeight: '95vh', 
+      width: '95%', maxWidth: '550px', maxHeight: '95%', // Remplacé vh par %
       boxSizing: 'border-box', position: 'relative', overflowY: 'auto'
     }}>
       <button onClick={onClose} style={{ position: 'absolute', top: '10px', right: '15px', background: 'none', border: 'none', fontSize: '24px', cursor: 'pointer', color: '#888', zIndex: 10 }}>✖</button>
@@ -273,32 +273,39 @@ export default function App() {
   const [showGame, setShowGame] = useState(false);
   const [showInvaders, setShowInvaders] = useState(false);
   
-  // --- NOUVEAU : État et logique du Plein Écran ---
-  // --- État et logique du Plein Écran ---
+  // --- NOUVEAU : Détection iPhone et Calcul dynamique de la hauteur ---
+  const isIOS = typeof navigator !== 'undefined' && /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
   const [isFullscreen, setIsFullscreen] = useState(false);
-
-  // Détection basique d'un appareil iOS
-  const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+  const [fullscreenSupported, setFullscreenSupported] = useState(true);
+  const [windowHeight, setWindowHeight] = useState(typeof window !== 'undefined' ? window.innerHeight : 0);
 
   useEffect(() => {
+    // Gestion dynamique de la hauteur (Règle le bug Safari)
+    const handleResize = () => {
+      setWindowHeight(window.innerHeight);
+    };
+    window.addEventListener('resize', handleResize);
+    handleResize(); // Appel initial
+
+    // Vérification du support plein écran
+    const docEl = document.documentElement;
+    const requestFS = docEl.requestFullscreen || docEl.webkitRequestFullscreen;
+    setFullscreenSupported(!!requestFS);
+
     const handleFullscreenChange = () => {
       setIsFullscreen(!!(document.fullscreenElement || document.webkitFullscreenElement));
     };
     document.addEventListener('fullscreenchange', handleFullscreenChange);
     document.addEventListener('webkitfullscreenchange', handleFullscreenChange);
+
     return () => {
+      window.removeEventListener('resize', handleResize);
       document.removeEventListener('fullscreenchange', handleFullscreenChange);
       document.removeEventListener('webkitfullscreenchange', handleFullscreenChange);
     };
   }, []);
 
   const toggleFullScreen = () => {
-    if (isIOS) {
-      // Message spécifique pour les utilisateurs iPhone
-      alert("📱 Sur iPhone, pour jouer en plein écran :\n\n1. Appuyez sur l'icône 'Partager' (le carré avec la flèche) en bas de l'écran.\n2. Choisissez 'Sur l'écran d'accueil'.\n3. Ouvrez l'application depuis votre écran d'accueil !");
-      return;
-    }
-
     const docEl = document.documentElement;
     const requestFS = docEl.requestFullscreen || docEl.webkitRequestFullscreen;
     const exitFS = document.exitFullscreen || document.webkitExitFullscreen;
@@ -334,63 +341,36 @@ export default function App() {
       title: "PROJETS",
       content: (
         <div style={{ display: 'flex', flexDirection: 'column', gap: '20px', marginTop: '10px' }}>
-          
-          <div style={{ 
-            backgroundColor: '#f8fafc', border: '1px solid #e2e8f0', borderRadius: '12px', padding: '20px',
-            display: 'flex', flexDirection: 'column', gap: '12px' 
-          }}>
+          <div style={{ backgroundColor: '#f8fafc', border: '1px solid #e2e8f0', borderRadius: '12px', padding: '20px', display: 'flex', flexDirection: 'column', gap: '12px' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
               <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" alt="Repo Logo" style={{ width: '40px', height: '40px' }} />
               <h3 style={{ margin: 0, color: '#0f172a', fontSize: '1.2rem' }}>projet-kosmio-front</h3>
             </div>
-            <div style={{ 
-              backgroundColor: '#fff', border: '1px solid #cbd5e1', borderRadius: '8px', padding: '15px', 
-              fontSize: '0.85rem', color: '#475569', maxHeight: '150px', overflowY: 'auto', fontFamily: 'monospace' 
-            }}>
+            <div style={{ backgroundColor: '#fff', border: '1px solid #cbd5e1', borderRadius: '8px', padding: '15px', fontSize: '0.85rem', color: '#475569', maxHeight: '150px', overflowY: 'auto', fontFamily: 'monospace' }}>
               <b style={{ color: '#000' }}>📄 README.md</b><br/><br/>
               Ce projet est une application d'interface web React permettant d'uploader des documents PDF, de déclencher la génération de fiches solutions et secteurs via le pipeline RAG du backend, puis de visualiser, éditer et gérer ces fiches au format Markdown.
             </div>
-            <a href="https://github.com/abdemeh/projet-kosmio-front" target="_blank" rel="noreferrer" style={{
-              alignSelf: 'flex-start', backgroundColor: '#24292f', color: '#fff', padding: '8px 16px', 
-              borderRadius: '20px', textDecoration: 'none', fontSize: '0.9rem', fontWeight: 'bold', display: 'flex', alignItems: 'center', gap: '8px'
-            }}>
+            <a href="https://github.com/abdemeh/projet-kosmio-front" target="_blank" rel="noreferrer" style={{ alignSelf: 'flex-start', backgroundColor: '#24292f', color: '#fff', padding: '8px 16px', borderRadius: '20px', textDecoration: 'none', fontSize: '0.9rem', fontWeight: 'bold', display: 'flex', alignItems: 'center', gap: '8px' }}>
               <img src="https://cdn-icons-png.flaticon.com/512/25/25231.png" style={{ width: '16px', filter: 'invert(1)' }} />
               Voir sur GitHub
             </a>
           </div>
 
-          <div style={{ 
-            backgroundColor: '#f8fafc', border: '1px solid #e2e8f0', borderRadius: '12px', padding: '20px',
-            display: 'flex', flexDirection: 'column', gap: '12px' 
-          }}>
+          <div style={{ backgroundColor: '#f8fafc', border: '1px solid #e2e8f0', borderRadius: '12px', padding: '20px', display: 'flex', flexDirection: 'column', gap: '12px' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
               <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" alt="Repo Logo" style={{ width: '40px', height: '40px' }} />
               <h3 style={{ margin: 0, color: '#0f172a', fontSize: '1.2rem' }}>PokemonDrafter</h3>
             </div>
-            <div style={{ 
-              backgroundColor: '#fff', border: '1px solid #cbd5e1', borderRadius: '8px', padding: '15px', 
-              fontSize: '0.85rem', color: '#475569', maxHeight: '150px', overflowY: 'auto', fontFamily: 'monospace' 
-            }}>
+            <div style={{ backgroundColor: '#fff', border: '1px solid #cbd5e1', borderRadius: '8px', padding: '15px', fontSize: '0.85rem', color: '#475569', maxHeight: '150px', overflowY: 'auto', fontFamily: 'monospace' }}>
               <b style={{ color: '#000' }}>📄 README.md</b><br/><br/>
               Application web micro-services simulant des combats pokemon en réseau, permettant la gestion des pokemon, équipes.
             </div>
-            <a href="https://github.com/SEMGOODD/PokemonDrafter" target="_blank" rel="noreferrer" style={{
-              alignSelf: 'flex-start', backgroundColor: '#24292f', color: '#fff', padding: '8px 16px', 
-              borderRadius: '20px', textDecoration: 'none', fontSize: '0.9rem', fontWeight: 'bold', display: 'flex', alignItems: 'center', gap: '8px'
-            }}>
+            <a href="https://github.com/SEMGOODD/PokemonDrafter" target="_blank" rel="noreferrer" style={{ alignSelf: 'flex-start', backgroundColor: '#24292f', color: '#fff', padding: '8px 16px', borderRadius: '20px', textDecoration: 'none', fontSize: '0.9rem', fontWeight: 'bold', display: 'flex', alignItems: 'center', gap: '8px' }}>
               <img src="https://cdn-icons-png.flaticon.com/512/25/25231.png" style={{ width: '16px', filter: 'invert(1)' }} />
               Voir sur GitHub
             </a>
           </div>
-          <div 
-            onClick={() => { setShowInvaders(true); setActiveSection(null); }}
-            style={{
-              marginTop: '15px', padding: '15px', backgroundColor: '#fee2e2', borderRadius: '16px',
-              border: '2px dashed #ef4444', textAlign: 'center', cursor: 'pointer', transition: '0.2s'
-            }}
-            onMouseOver={(e) => e.currentTarget.style.transform = 'scale(1.02)'}
-            onMouseOut={(e) => e.currentTarget.style.transform = 'scale(1)'}
-          >
+          <div onClick={() => { setShowInvaders(true); setActiveSection(null); }} style={{ marginTop: '15px', padding: '15px', backgroundColor: '#fee2e2', borderRadius: '16px', border: '2px dashed #ef4444', textAlign: 'center', cursor: 'pointer', transition: '0.2s' }} onMouseOver={(e) => e.currentTarget.style.transform = 'scale(1.02)'} onMouseOut={(e) => e.currentTarget.style.transform = 'scale(1)'}>
             🚀 <b>Jouer à Space Invaders</b>
           </div>
         </div>
@@ -637,6 +617,7 @@ export default function App() {
   return (
     <>
       <style>{`
+        body { margin: 0; padding: 0; background-color: #000; overflow: hidden; }
         .landscape-warning { display: none; }
         
         @media (max-height: 500px) {
@@ -667,48 +648,37 @@ export default function App() {
         <p>Pour explorer la chambre, pivotez votre téléphone.</p>
       </div>
 
-      {/* --- NOUVEAU : Bouton Plein Écran --- */}
-      <button 
-        onClick={toggleFullScreen}
-        style={{
-          position: 'fixed',
-          top: '20px',
-          right: '20px',
-          zIndex: 9999,
-          backgroundColor: 'rgba(255, 255, 255, 0.1)',
-          backdropFilter: 'blur(5px)',
-          border: '2px solid rgba(255, 255, 255, 0.3)',
-          color: '#fff',
-          borderRadius: '12px',
-          width: '45px',
-          height: '45px',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          cursor: 'pointer',
-          transition: 'all 0.2s ease',
-          boxShadow: '0 4px 10px rgba(0,0,0,0.3)'
-        }}
-        title={isFullscreen ? "Quitter le plein écran" : "Plein écran"}
-        onMouseOver={(e) => { e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.3)'; e.currentTarget.style.transform = 'scale(1.1)'; }}
-        onMouseOut={(e) => { e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.1)'; e.currentTarget.style.transform = 'scale(1)'; }}
-      >
-        {isFullscreen ? (
-          <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round">
-            <path d="M8 3v3a2 2 0 0 1-2 2H3m18 0h-3a2 2 0 0 1-2-2V3m0 18v-3a2 2 0 0 1 2-2h3M3 16h3a2 2 0 0 1 2 2v3"></path>
-          </svg>
-        ) : (
-          <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round">
-            <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path>
-          </svg>
-        )}
-      </button>
+      {/* --- Le bouton s'affiche partout SAUF sur iPhone/iPad --- */}
+      {fullscreenSupported && !isIOS && (
+        <button 
+          onClick={toggleFullScreen}
+          style={{
+            position: 'fixed', top: '20px', right: '20px', zIndex: 9999,
+            backgroundColor: 'rgba(255, 255, 255, 0.1)', backdropFilter: 'blur(5px)',
+            border: '2px solid rgba(255, 255, 255, 0.3)', color: '#fff', borderRadius: '12px',
+            width: '45px', height: '45px', display: 'flex', alignItems: 'center', justifyContent: 'center',
+            cursor: 'pointer', transition: 'all 0.2s ease', boxShadow: '0 4px 10px rgba(0,0,0,0.3)'
+          }}
+          title={isFullscreen ? "Quitter le plein écran" : "Plein écran"}
+        >
+          {isFullscreen ? (
+            <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M8 3v3a2 2 0 0 1-2 2H3m18 0h-3a2 2 0 0 1-2-2V3m0 18v-3a2 2 0 0 1 2-2h3M3 16h3a2 2 0 0 1 2 2v3"></path>
+            </svg>
+          ) : (
+            <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path>
+            </svg>
+          )}
+        </button>
+      )}
 
-      <div className="app-content" style={{ width: '100vw', height: '100vh', backgroundColor: '#000', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden', fontFamily: 'sans-serif' }}>
+      {/* --- Utilisation dynamique de la hauteur via windowHeight --- */}
+      <div className="app-content" style={{ width: '100vw', height: `${windowHeight}px`, backgroundColor: '#000', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden', fontFamily: 'sans-serif' }}>
         <div style={{ 
           position: 'relative', 
           width: '100%', height: '100%', 
-          maxWidth: 'calc(100vh * (16/9))', 
+          maxWidth: `calc(${windowHeight}px * (16/9))`, // Respecte la hauteur exacte
           maxHeight: 'calc(100vw * (9/16))',
           aspectRatio: '16/9', 
           backgroundColor: '#000', 
@@ -732,7 +702,7 @@ export default function App() {
 
           {showWelcome && (
             <div style={{ position: 'absolute', inset: 0, backgroundColor: 'rgba(0,0,0,0.85)', backdropFilter: 'blur(8px)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 100 }}>
-              <div className="welcome-box" style={{ backgroundColor: '#fff', padding: '40px', borderRadius: '20px', maxWidth: '600px', width: '90%', textAlign: 'center', maxHeight: '90vh', overflowY: 'auto' }}>
+              <div className="welcome-box" style={{ backgroundColor: '#fff', padding: '40px', borderRadius: '20px', maxWidth: '600px', width: '90%', textAlign: 'center', maxHeight: '90%', overflowY: 'auto' }}>
                 <h1>Bienvenue ! 🎮</h1>
                 <p>Salut, je suis <b>Ethan Orsolle</b>. Fouillez ma chambre pour découvrir mon parcours.</p>
                 <button onClick={() => setShowWelcome(false)} style={{ backgroundColor: '#3b82f6', color: '#fff', border: 'none', padding: '16px 32px', fontSize: '1.1rem', fontWeight: 'bold', borderRadius: '30px', cursor: 'pointer' }}>Entrer dans la chambre</button>
@@ -749,7 +719,7 @@ export default function App() {
                 maxWidth: (['experience', 'skills', 'education', 'interests', 'divertissements'].includes(activeSection)) ? '750px' : '550px', 
                 width: '85%', 
                 position: 'relative', 
-                maxHeight: '85vh',
+                maxHeight: `calc(${windowHeight}px * 0.85)`, // 85% de la VRAIE hauteur disponible
                 overflowY: 'auto'
               }}>
                 <button onClick={() => setActiveSection(null)} style={{ position: 'absolute', top: '10px', right: '15px', background: 'none', border: 'none', fontSize: '24px', cursor: 'pointer' }}>✖</button>
