@@ -130,21 +130,19 @@ const SpaceInvaders = ({ onClose }) => {
     <div style={{ 
       backgroundColor: '#000', padding: '15px', borderRadius: '20px', 
       border: '4px solid #ef4444', textAlign: 'center', position: 'relative', 
-      width: '95vw', maxWidth: '550px', maxHeight: '95vh', // Dimensions contraintes
+      width: '95vw', maxWidth: '550px', maxHeight: '95vh', 
       display: 'flex', flexDirection: 'column', boxSizing: 'border-box'
     }}>
       <button onClick={onClose} style={{ position: 'absolute', top: '10px', right: '15px', background: 'none', border: 'none', fontSize: '24px', cursor: 'pointer', color: '#fff', zIndex: 10 }}>✖</button>
       
-      {/* En-tête fixe */}
       <div style={{ flex: 'none' }}>
         <h2 style={{ color: '#ef4444', margin: '0 0 10px 0', fontFamily: 'monospace', fontSize: 'clamp(1.2rem, 4vw, 1.5rem)' }}>CLOUD ATTACK</h2>
       </div>
 
-      {/* Zone du canvas flexible : elle rétrécit le canvas si l'écran manque de hauteur */}
       <div style={{ flex: 1, minHeight: 0, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
         <canvas ref={canvasRef} width={500} height={450} style={{ 
           backgroundColor: '#020617', borderRadius: '10px', border: '2px solid #1e293b',
-          maxWidth: '100%', maxHeight: '100%', objectFit: 'contain' // Le scaling magique
+          maxWidth: '100%', maxHeight: '100%', objectFit: 'contain' 
         }} />
       </div>
 
@@ -219,7 +217,7 @@ const MemoryGame = ({ onClose }) => {
       display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
       gap: '10px', textAlign: 'center', border: '4px solid #f59e0b', 
       boxShadow: '0 10px 30px rgba(245, 158, 11, 0.3)',
-      width: '95vw', maxWidth: '550px', maxHeight: '95vh', // Rendu Responsive
+      width: '95vw', maxWidth: '550px', maxHeight: '95vh', 
       boxSizing: 'border-box', position: 'relative', overflowY: 'auto'
     }}>
       <button onClick={onClose} style={{ position: 'absolute', top: '10px', right: '15px', background: 'none', border: 'none', fontSize: '24px', cursor: 'pointer', color: '#888', zIndex: 10 }}>✖</button>
@@ -274,6 +272,29 @@ export default function App() {
   const [showWelcome, setShowWelcome] = useState(true);
   const [showGame, setShowGame] = useState(false);
   const [showInvaders, setShowInvaders] = useState(false);
+  
+  // --- NOUVEAU : État et logique du Plein Écran ---
+  const [isFullscreen, setIsFullscreen] = useState(false);
+
+  useEffect(() => {
+    const handleFullscreenChange = () => {
+      setIsFullscreen(!!document.fullscreenElement);
+    };
+    document.addEventListener('fullscreenchange', handleFullscreenChange);
+    return () => document.removeEventListener('fullscreenchange', handleFullscreenChange);
+  }, []);
+
+  const toggleFullScreen = () => {
+    if (!document.fullscreenElement) {
+      document.documentElement.requestFullscreen().catch(err => {
+        console.error(`Erreur d'activation du plein écran: ${err.message}`);
+      });
+    } else {
+      if (document.exitFullscreen) {
+        document.exitFullscreen();
+      }
+    }
+  };
 
   const SkillCard = ({ logoUrl, name }) => (
     <div style={{
@@ -524,6 +545,7 @@ export default function App() {
               JEUX VIDÉOS
             </h3>
             <div style={{ color: '#ef4444', fontSize: '0.8rem', fontStyle: 'italic', marginBottom: '5px' }}>
+              &gt; // Game:
             </div>
             <div 
               onClick={() => { setShowGame(true); setActiveSection(null); }}
@@ -630,6 +652,43 @@ export default function App() {
         <h2>Mode Paysage Requis</h2>
         <p>Pour explorer la chambre, pivotez votre téléphone.</p>
       </div>
+
+      {/* --- NOUVEAU : Bouton Plein Écran --- */}
+      <button 
+        onClick={toggleFullScreen}
+        style={{
+          position: 'fixed',
+          top: '20px',
+          right: '20px',
+          zIndex: 9999,
+          backgroundColor: 'rgba(255, 255, 255, 0.1)',
+          backdropFilter: 'blur(5px)',
+          border: '2px solid rgba(255, 255, 255, 0.3)',
+          color: '#fff',
+          borderRadius: '12px',
+          width: '45px',
+          height: '45px',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          cursor: 'pointer',
+          transition: 'all 0.2s ease',
+          boxShadow: '0 4px 10px rgba(0,0,0,0.3)'
+        }}
+        title={isFullscreen ? "Quitter le plein écran" : "Plein écran"}
+        onMouseOver={(e) => { e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.3)'; e.currentTarget.style.transform = 'scale(1.1)'; }}
+        onMouseOut={(e) => { e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.1)'; e.currentTarget.style.transform = 'scale(1)'; }}
+      >
+        {isFullscreen ? (
+          <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M8 3v3a2 2 0 0 1-2 2H3m18 0h-3a2 2 0 0 1-2-2V3m0 18v-3a2 2 0 0 1 2-2h3M3 16h3a2 2 0 0 1 2 2v3"></path>
+          </svg>
+        ) : (
+          <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path>
+          </svg>
+        )}
+      </button>
 
       <div className="app-content" style={{ width: '100vw', height: '100vh', backgroundColor: '#000', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden', fontFamily: 'sans-serif' }}>
         <div style={{ 
