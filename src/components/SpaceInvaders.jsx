@@ -131,30 +131,26 @@ const SpaceInvaders = ({ onClose }) => {
       backgroundColor: '#000', padding: '15px', borderRadius: '20px', 
       border: '4px solid #ef4444', textAlign: 'center', position: 'relative', 
       width: '95%', maxWidth: '550px', maxHeight: '95%', 
-      display: 'flex', flexDirection: 'column', boxSizing: 'border-box'
+      display: 'flex', flexDirection: 'column', boxSizing: 'border-box', overflow: 'hidden'
     }}>
-      <button onClick={onClose} style={{ position: 'absolute', top: '10px', right: '15px', background: 'none', border: 'none', fontSize: '24px', cursor: 'pointer', color: '#fff', zIndex: 10 }}>✖</button>
-      
-      <div style={{ flex: 'none' }}>
-        <h2 style={{ color: '#ef4444', margin: '0 0 10px 0', fontFamily: 'monospace', fontSize: 'clamp(1.2rem, 4vw, 1.5rem)' }}>CLOUD ATTACK</h2>
+      {/* EN-TÊTE FIXE */}
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flex: 'none', marginBottom: '10px' }}>
+        <h2 style={{ color: '#ef4444', margin: 0, fontSize: 'clamp(1.5rem, 5vw, 2rem)' }}>CLOUD ATTACK</h2>
+        <button onClick={onClose} style={{ background: 'none', border: 'none', fontSize: '32px', cursor: 'pointer', color: '#fff', display: 'flex' }}>✖</button>
       </div>
 
       <div style={{ flex: 1, minHeight: 0, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-        <canvas ref={canvasRef} width={500} height={450} style={{ 
-          backgroundColor: '#020617', borderRadius: '10px', border: '2px solid #1e293b',
-          maxWidth: '100%', maxHeight: '100%', objectFit: 'contain' 
-        }} />
+        <canvas ref={canvasRef} width={500} height={450} style={{ backgroundColor: '#020617', borderRadius: '10px', border: '2px solid #1e293b', maxWidth: '100%', maxHeight: '100%', objectFit: 'contain' }} />
       </div>
 
-      {isDead && (
+      {isDead && ( /* ... ton code pour Game Over reste le même ... */
         <div style={{ position: 'absolute', inset: 0, backgroundColor: 'rgba(0,0,0,0.92)', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', borderRadius: '16px', zIndex: 20 }}>
-          <h2 style={{ color: '#ef4444', fontSize: 'clamp(1.8rem, 6vw, 2.5rem)', margin: '0 0 10px 0' }}>GAME OVER</h2>
-          <p style={{ color: '#fff', fontSize: '1.2rem', margin: '0 0 15px 0' }}>Score: {gameRef.current.score}</p>
-          <button onClick={onClose} style={{ backgroundColor: '#ef4444', color: '#fff', border: 'none', padding: '12px 30px', borderRadius: '30px', cursor: 'pointer', fontWeight: 'bold' }}>QUITTER</button>
+          <h2 style={{ color: '#ef4444', fontSize: 'clamp(2rem, 8vw, 3rem)', margin: '0 0 10px 0' }}>GAME OVER</h2>
+          <p style={{ color: '#fff', fontSize: '1.5rem', margin: '0 0 15px 0' }}>Score: {gameRef.current.score}</p>
+          <button onClick={onClose} style={{ backgroundColor: '#ef4444', color: '#fff', border: 'none', padding: '12px 30px', borderRadius: '30px', cursor: 'pointer', fontSize: '1.2rem' }}>QUITTER</button>
         </div>
       )}
     </div>
-  )
+  );
 };
-
 export default SpaceInvaders;

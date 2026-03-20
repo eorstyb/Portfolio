@@ -167,13 +167,23 @@ export default function App() {
       {activeSection && cvData[activeSection] && (
         <div style={{ position: 'fixed', top: 0, left: 0, width: '100vw', height: `${windowSize.height}px`, backgroundColor: 'rgba(0,0,0,0.6)', backdropFilter: 'blur(5px)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 50 }}>
           <div className="popup-content" style={{ 
-            backgroundColor: '#fff', padding: '35px', borderRadius: '16px', 
+            backgroundColor: '#fff', borderRadius: '16px', 
             maxWidth: (['experience', 'skills', 'education', 'interests', 'divertissements'].includes(activeSection)) ? '750px' : '550px', 
-            width: '90%', position: 'relative', maxHeight: `calc(${windowSize.height}px * 0.85)`, overflowY: 'auto'
+            width: '90%', maxHeight: `calc(${windowSize.height}px * 0.85)`, 
+            display: 'flex', flexDirection: 'column', overflow: 'hidden' // ⬅️ Structure Flex
           }}>
-            <button onClick={() => setActiveSection(null)} style={{ position: 'absolute', top: '10px', right: '15px', background: 'none', border: 'none', fontSize: '24px', cursor: 'pointer', color: '#ef4444' }}>✖</button>
-            <h2 style={{ borderBottom: '3px solid #3b82f6', paddingBottom: '12px', marginTop: 0, fontSize: '2rem' }}>{cvData[activeSection].title}</h2>
-            <div style={{ marginTop: '15px' }}>{cvData[activeSection].content}</div>
+            
+            {/* EN-TÊTE FIXE */}
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '20px 25px 10px 25px', borderBottom: '3px solid #3b82f6', flex: 'none' }}>
+              <h2 style={{ margin: 0, fontSize: '2rem' }}>{cvData[activeSection].title}</h2>
+              <button onClick={() => setActiveSection(null)} style={{ background: 'none', border: 'none', fontSize: '32px', cursor: 'pointer', color: '#ef4444', display: 'flex' }}>✖</button>
+            </div>
+
+            {/* CORPS SCROLLABLE */}
+            <div className="hide-scrollbar" style={{ flex: 1, overflowY: 'auto', padding: '15px 25px 25px 25px' }}>
+              {cvData[activeSection].content}
+            </div>
+
           </div>
         </div>
       )}

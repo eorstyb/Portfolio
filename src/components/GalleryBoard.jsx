@@ -22,73 +22,64 @@ const GalleryBoard = ({ onClose }) => {
       display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 200,
       backdropFilter: 'blur(4px)'
     }}>
-      {/* L'animation de zoom élastique */}
       <style>{`
         @keyframes zoomInBoard {
           0% { transform: scale(0.3); opacity: 0; }
           70% { transform: scale(1.05); opacity: 1; }
           100% { transform: scale(1); opacity: 1; }
         }
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
       `}</style>
       
-      {/* Le fond du Tableau en liège */}
       <div style={{
         backgroundColor: '#d4a373', 
         backgroundImage: 'url("https://www.transparenttextures.com/patterns/cork-board.png")',
-        border: '12px solid #8b5a2b', // Cadre en bois
-        borderRadius: '8px',
-        padding: '40px',
+        border: '12px solid #8b5a2b', borderRadius: '8px',
         width: '90%', maxWidth: '800px', maxHeight: '85vh',
-        overflowY: 'auto', position: 'relative',
+        display: 'flex', flexDirection: 'column', overflow: 'hidden', // ⬅️ Le secret est ici
         boxShadow: 'inset 0 0 20px rgba(0,0,0,0.5), 0 15px 30px rgba(0,0,0,0.5)',
         animation: 'zoomInBoard 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards'
       }}>
         
-        {/* Bouton Fermer */}
-        <button onClick={onClose} style={{
-          position: 'absolute', top: '10px', right: '15px', background: '#ef4444',
-          border: 'none', color: '#fff', fontSize: '1.2rem', cursor: 'pointer',
-          width: '32px', height: '32px', borderRadius: '50%', fontWeight: 'bold',
-          boxShadow: '0 2px 5px rgba(0,0,0,0.3)', display: 'flex', alignItems: 'center', justifyContent: 'center'
-        }}>✖</button>
+        {/* EN-TÊTE FIXE */}
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '20px 20px 10px 20px', flex: 'none', borderBottom: '4px dashed rgba(139, 90, 43, 0.4)' }}>
+          <h2 style={{ color: '#3e2723', margin: 0, fontSize: 'clamp(1.8rem, 5vw, 2.5rem)', textShadow: '1px 1px 2px rgba(255,255,255,0.3)' }}>
+            GALERIE SOUVENIRS
+          </h2>
+          <button onClick={onClose} style={{
+            background: '#ef4444', border: 'none', color: '#fff', fontSize: '1.2rem', cursor: 'pointer',
+            width: '36px', height: '36px', borderRadius: '50%', fontWeight: 'bold',
+            boxShadow: '0 2px 5px rgba(0,0,0,0.3)', display: 'flex', alignItems: 'center', justifyContent: 'center'
+          }}>✖</button>
+        </div>
 
-        <h2 style={{ textAlign: 'center', color: '#3e2723', margin: '0 0 30px 0', fontSize: '2.5rem', textShadow: '1px 1px 2px rgba(255,255,255,0.3)' }}>
-          GALERIE SOUVENIRS
-        </h2>
-
-        {/* Grille des photos façon Polaroid */}
-        <div style={{
-          display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))', gap: '30px', justifyItems: 'center'
-        }}>
-          {images.map((src, i) => (
-            <div key={i} style={{
-              backgroundColor: '#f8fafc', padding: '10px 10px 35px 10px',
-              boxShadow: '2px 4px 10px rgba(0,0,0,0.4)', borderRadius: '2px',
-              transform: `rotate(${rotations[i]}deg)`, position: 'relative',
-              transition: 'transform 0.2s ease, box-shadow 0.2s ease', cursor: 'pointer'
-            }}
-            onMouseOver={(e) => {
-              e.currentTarget.style.transform = `scale(1.1) rotate(0deg)`;
-              e.currentTarget.style.boxShadow = '4px 8px 15px rgba(0,0,0,0.5)';
-              e.currentTarget.style.zIndex = 10;
-            }}
-            onMouseOut={(e) => {
-              e.currentTarget.style.transform = `rotate(${rotations[i]}deg)`;
-              e.currentTarget.style.boxShadow = '2px 4px 10px rgba(0,0,0,0.4)';
-              e.currentTarget.style.zIndex = 1;
-            }}
-            >
-              {/* La punaise */}
-              <div style={{
-                position: 'absolute', top: '6px', left: '50%', transform: 'translateX(-50%)',
-                width: '14px', height: '14px', backgroundColor: '#ef4444', borderRadius: '50%',
-                boxShadow: 'inset -2px -2px 4px rgba(0,0,0,0.3), 1px 2px 3px rgba(0,0,0,0.4)', zIndex: 2
-              }} />
-              
-              <img src={src} alt={`Souvenir ${i+1}`} style={{ width: '100%', height: '100%', objectFit: 'cover', border: '1px solid #cbd5e1' }} />
-              
-            </div>
-          ))}
+        {/* CORPS SCROLLABLE */}
+        <div className="hide-scrollbar" style={{ flex: 1, overflowY: 'auto', padding: '20px' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))', gap: '30px', justifyItems: 'center' }}>
+            {images.map((src, i) => (
+              <div key={i} style={{
+                backgroundColor: '#f8fafc', padding: '10px 10px 35px 10px',
+                boxShadow: '2px 4px 10px rgba(0,0,0,0.4)', borderRadius: '2px',
+                transform: `rotate(${rotations[i]}deg)`, position: 'relative',
+                transition: 'transform 0.2s ease, box-shadow 0.2s ease', cursor: 'pointer'
+              }}
+              onMouseOver={(e) => {
+                e.currentTarget.style.transform = `scale(1.1) rotate(0deg)`;
+                e.currentTarget.style.boxShadow = '4px 8px 15px rgba(0,0,0,0.5)';
+                e.currentTarget.style.zIndex = 10;
+              }}
+              onMouseOut={(e) => {
+                e.currentTarget.style.transform = `rotate(${rotations[i]}deg)`;
+                e.currentTarget.style.boxShadow = '2px 4px 10px rgba(0,0,0,0.4)';
+                e.currentTarget.style.zIndex = 1;
+              }}>
+                <div style={{ position: 'absolute', top: '6px', left: '50%', transform: 'translateX(-50%)', width: '14px', height: '14px', backgroundColor: '#ef4444', borderRadius: '50%', boxShadow: 'inset -2px -2px 4px rgba(0,0,0,0.3), 1px 2px 3px rgba(0,0,0,0.4)', zIndex: 2 }} />
+                <img src={src} alt={`Souvenir ${i+1}`} style={{ width: '100%', height: '120px', objectFit: 'cover', border: '1px solid #cbd5e1' }} />
+                <div style={{ position: 'absolute', bottom: '8px', left: '0', width: '100%', textAlign: 'center', color: '#475569', fontSize: '1.2rem' }}>Photo {i+1}</div>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </div>
