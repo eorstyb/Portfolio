@@ -3,9 +3,8 @@ import React, { useState, useEffect } from 'react';
 const SpaceInvaders = ({ onClose }) => {
   const canvasRef = React.useRef(null);
   const [isDead, setIsDead] = useState(false);
-  const gameRef = React.useRef({ score: 0 }); // Pour garder le score accessible au Game Over
+  const gameRef = React.useRef({ score: 0 }); 
   
-  // Logos
   const PLAYER_LOGO = "https://upload.wikimedia.org/wikipedia/commons/a/a7/React-icon.svg";
   const ENEMY_LOGOS = [
     "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/Docker-svgrepo-com.svg/1280px-Docker-svgrepo-com.svg.png",
@@ -16,12 +15,11 @@ const SpaceInvaders = ({ onClose }) => {
   ];
 
   useEffect(() => {
-    let isInitialized = true; // Verrou anti-double exécution
+    let isInitialized = true; 
     const canvas = canvasRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
 
-    // État du moteur de jeu
     const state = {
       player: { x: 230, y: 380, w: 40, h: 40, speed: 8, dx: 0 },
       bullets: [],
@@ -38,11 +36,9 @@ const SpaceInvaders = ({ onClose }) => {
     const eImgs = ENEMY_LOGOS.map(url => { const img = new Image(); img.src = url; return img; });
 
     const update = () => {
-      // Mouvement Joueur
       if (state.keys.left && state.player.x > 0) state.player.x -= state.player.speed;
       if (state.keys.right && state.player.x < canvas.width - state.player.w) state.player.x += state.player.speed;
 
-      // Spawn
       state.spawnTimer++;
       if (state.spawnTimer > 35) {
         state.enemies.push({
@@ -53,19 +49,16 @@ const SpaceInvaders = ({ onClose }) => {
         state.spawnTimer = 0;
       }
 
-      // Balles
       for (let i = state.bullets.length - 1; i >= 0; i--) {
         state.bullets[i].y -= 10;
         if (state.bullets[i].y < 0) state.bullets.splice(i, 1);
       }
 
-      // Ennemis & Collisions
       for (let i = state.enemies.length - 1; i >= 0; i--) {
         const en = state.enemies[i];
         en.y += en.sy;
         en.x += en.sx;
 
-        // Collision Balle
         state.bullets.forEach((b, bi) => {
           if (b.x < en.x + en.w && b.x + 5 > en.x && b.y < en.y + en.h && b.y + 10 > en.y) {
             state.enemies.splice(i, 1);
@@ -75,7 +68,6 @@ const SpaceInvaders = ({ onClose }) => {
           }
         });
 
-        // Collision Joueur
         if (en.y + en.h > state.player.y && en.x < state.player.x + state.player.w && en.x + en.w > state.player.x) {
           state.enemies.splice(i, 1);
           state.lives -= 1;
@@ -127,7 +119,7 @@ const SpaceInvaders = ({ onClose }) => {
     state.frameId = requestAnimationFrame(loop);
 
     return () => {
-      isInitialized = false; // Désactive le loop immédiatement
+      isInitialized = false; 
       window.removeEventListener('keydown', onKeyDown);
       window.removeEventListener('keyup', onKeyUp);
       cancelAnimationFrame(state.frameId);
@@ -135,15 +127,32 @@ const SpaceInvaders = ({ onClose }) => {
   }, []);
 
   return (
-    <div style={{ backgroundColor: '#000', padding: '20px', borderRadius: '20px', border: '4px solid #ef4444', textAlign: 'center', position: 'relative', width: '550px' }}>
+    <div style={{ 
+      backgroundColor: '#000', padding: '15px', borderRadius: '20px', 
+      border: '4px solid #ef4444', textAlign: 'center', position: 'relative', 
+      width: '95vw', maxWidth: '550px', maxHeight: '95vh', // Dimensions contraintes
+      display: 'flex', flexDirection: 'column', boxSizing: 'border-box'
+    }}>
       <button onClick={onClose} style={{ position: 'absolute', top: '10px', right: '15px', background: 'none', border: 'none', fontSize: '24px', cursor: 'pointer', color: '#fff', zIndex: 10 }}>✖</button>
-      <h2 style={{ color: '#ef4444', margin: '0 0 10px 0', fontFamily: 'monospace' }}>CLOUD ATTACK</h2>
-      <canvas ref={canvasRef} width={500} height={450} style={{ backgroundColor: '#020617', borderRadius: '10px', border: '2px solid #1e293b' }} />
+      
+      {/* En-tête fixe */}
+      <div style={{ flex: 'none' }}>
+        <h2 style={{ color: '#ef4444', margin: '0 0 10px 0', fontFamily: 'monospace', fontSize: 'clamp(1.2rem, 4vw, 1.5rem)' }}>CLOUD ATTACK</h2>
+      </div>
+
+      {/* Zone du canvas flexible : elle rétrécit le canvas si l'écran manque de hauteur */}
+      <div style={{ flex: 1, minHeight: 0, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+        <canvas ref={canvasRef} width={500} height={450} style={{ 
+          backgroundColor: '#020617', borderRadius: '10px', border: '2px solid #1e293b',
+          maxWidth: '100%', maxHeight: '100%', objectFit: 'contain' // Le scaling magique
+        }} />
+      </div>
+
       {isDead && (
-        <div style={{ position: 'absolute', inset: 0, backgroundColor: 'rgba(0,0,0,0.9)', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', borderRadius: '16px' }}>
-          <h2 style={{ color: '#ef4444', fontSize: '2.5rem' }}>GAME OVER</h2>
-          <p style={{ color: '#fff' }}>Score: {gameRef.current.score}</p>
-          <button onClick={onClose} style={{ backgroundColor: '#ef4444', color: '#fff', border: 'none', padding: '12px 30px', borderRadius: '30px', cursor: 'pointer', fontWeight: 'bold', marginTop: '15px' }}>QUITTER</button>
+        <div style={{ position: 'absolute', inset: 0, backgroundColor: 'rgba(0,0,0,0.92)', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', borderRadius: '16px', zIndex: 20 }}>
+          <h2 style={{ color: '#ef4444', fontSize: 'clamp(1.8rem, 6vw, 2.5rem)', margin: '0 0 10px 0' }}>GAME OVER</h2>
+          <p style={{ color: '#fff', fontSize: '1.2rem', margin: '0 0 15px 0' }}>Score: {gameRef.current.score}</p>
+          <button onClick={onClose} style={{ backgroundColor: '#ef4444', color: '#fff', border: 'none', padding: '12px 30px', borderRadius: '30px', cursor: 'pointer', fontWeight: 'bold' }}>QUITTER</button>
         </div>
       )}
     </div>
@@ -206,64 +215,42 @@ const MemoryGame = ({ onClose }) => {
 
   return (
     <div style={{
-      backgroundColor: '#0f172a', 
-      padding: '20px', 
-      borderRadius: '16px', 
-      color: '#fff',
-      display: 'flex', 
-      flexDirection: 'column', 
-      alignItems: 'center', 
-      justifyContent: 'center', // Centre le contenu verticalement (pour le loading)
-      gap: '15px', 
-      textAlign: 'center',
-      border: '4px solid #f59e0b', 
+      backgroundColor: '#0f172a', padding: '15px', borderRadius: '16px', color: '#fff',
+      display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
+      gap: '10px', textAlign: 'center', border: '4px solid #f59e0b', 
       boxShadow: '0 10px 30px rgba(245, 158, 11, 0.3)',
-      width: '550px',       // Largeur fixe pour éviter le changement de taille
-      minHeight: '450px',   // Hauteur minimale fixe pour éviter le saut au chargement
-      maxHeight: '90vh', 
-      overflowY: 'auto', 
-      position: 'relative'
+      width: '95vw', maxWidth: '550px', maxHeight: '95vh', // Rendu Responsive
+      boxSizing: 'border-box', position: 'relative', overflowY: 'auto'
     }}>
       <button onClick={onClose} style={{ position: 'absolute', top: '10px', right: '15px', background: 'none', border: 'none', fontSize: '24px', cursor: 'pointer', color: '#888', zIndex: 10 }}>✖</button>
       
       {loading ? (
-        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '20px' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '20px', padding: '40px 0' }}>
           <div style={{ fontSize: '4rem', animation: 'casinoSpin 0.3s infinite linear' }}>🎰</div>
-          <div style={{ fontSize: '1.2rem', fontWeight: 'bold', letterSpacing: '2px', color: '#f59e0b' }}>MÉLANGE DU DECK...</div>
+          <div style={{ fontSize: 'clamp(1rem, 3vw, 1.2rem)', fontWeight: 'bold', letterSpacing: '2px', color: '#f59e0b' }}>MÉLANGE DU DECK...</div>
           <div style={{ fontSize: '0.8rem', color: '#64748b' }}>Préparez vos réflexes</div>
         </div>
       ) : isGameOver ? (
-        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '20px' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '20px', padding: '20px 0' }}>
           <div style={{ fontSize: '4rem' }}>🎉</div>
-          <h2 style={{ color: '#f59e0b', margin: 0, fontSize: '2rem' }}>VICTOIRE !</h2>
+          <h2 style={{ color: '#f59e0b', margin: 0, fontSize: 'clamp(1.5rem, 5vw, 2rem)' }}>VICTOIRE !</h2>
           <p style={{ fontSize: '1.1rem' }}>Deck complété en <span style={{ color: '#f59e0b', fontWeight: 'bold' }}>{moves}</span> coups.</p>
-          <button onClick={onClose} style={{ backgroundColor: '#f59e0b', padding: '12px 30px', borderRadius: '30px', border: 'none', fontWeight: 'bold', cursor: 'pointer', color: '#0f172a', fontSize: '1rem', transition: 'transform 0.2s' }} onMouseOver={(e) => e.target.style.transform = 'scale(1.1)'} onMouseOut={(e) => e.target.style.transform = 'scale(1)'}>QUITTER</button>
+          <button onClick={onClose} style={{ backgroundColor: '#f59e0b', padding: '12px 30px', borderRadius: '30px', border: 'none', fontWeight: 'bold', cursor: 'pointer', color: '#0f172a', fontSize: '1rem', transition: 'transform 0.2s' }}>QUITTER</button>
         </div>
       ) : (
         <>
-          <h2 style={{ fontSize: '1.4rem', color: '#f59e0b', margin: 0, textTransform: 'uppercase' }}>Memory</h2>
+          <h2 style={{ fontSize: 'clamp(1.2rem, 4vw, 1.4rem)', color: '#f59e0b', margin: 0, textTransform: 'uppercase' }}>Memory</h2>
           <div style={{ fontSize: '0.9rem', backgroundColor: '#1e293b', padding: '5px 15px', borderRadius: '20px', border: '1px solid #334155' }}>
             Coups : <span style={{ color: '#f59e0b', fontWeight: 'bold' }}>{moves}</span> | Paires : <span style={{ color: '#f59e0b', fontWeight: 'bold' }}>{matched.length / 2}</span> / 9
           </div>
-          <div style={{ 
-            display: 'grid', 
-            gridTemplateColumns: 'repeat(6, 1fr)', 
-            gap: '8px', 
-            marginTop: '10px', 
-            width: '100%' 
-          }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(6, 1fr)', gap: '8px', marginTop: '10px', width: '100%', maxWidth: '400px' }}>
             {cards.map((card, index) => {
               const isFlipped = flipped.includes(index) || matched.includes(index);
               return (
                 <div key={index} onClick={() => handleCardClick(index)} style={{
-                  aspectRatio: '1', 
-                  backgroundColor: isFlipped ? '#fff' : '#1e293b',
-                  borderRadius: '8px', 
-                  display: 'flex', 
-                  alignItems: 'center', 
-                  justifyContent: 'center',
-                  cursor: 'pointer', 
-                  border: isFlipped ? '2px solid #f59e0b' : '2px solid #334155', 
+                  aspectRatio: '1', backgroundColor: isFlipped ? '#fff' : '#1e293b',
+                  borderRadius: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  cursor: 'pointer', border: isFlipped ? '2px solid #f59e0b' : '2px solid #334155', 
                   transition: 'transform 0.4s, background-color 0.2s',
                   transform: isFlipped ? 'rotateY(180deg)' : 'rotateY(0deg)',
                 }}>
@@ -304,7 +291,7 @@ export default function App() {
       title: "À PROPOS",
       content: (
         <>
-          <b>Ingénieur</b>, dynamique et motivé, étudiant le domaine de l'ingénierie du <b>cloud computing</b>. Découvrir le métier de <b>développeur fullstack</b> dans le monde de l'entreprise tout en apprenant de nouvelles technologies est pour moi une réelle ambition.
+          Ethan Orsolle, <b>ingénieur</b>, dynamique et motivé, étudiant le domaine de l'ingénierie du <b>cloud computing</b>. Découvrir le métier de <b>développeur fullstack</b> dans le monde de l'entreprise tout en apprenant de nouvelles technologies est pour moi une réelle ambition.
         </>
       ),
     },
@@ -313,7 +300,6 @@ export default function App() {
       content: (
         <div style={{ display: 'flex', flexDirection: 'column', gap: '20px', marginTop: '10px' }}>
           
-          {/* PROJET 1 */}
           <div style={{ 
             backgroundColor: '#f8fafc', border: '1px solid #e2e8f0', borderRadius: '12px', padding: '20px',
             display: 'flex', flexDirection: 'column', gap: '12px' 
@@ -328,7 +314,6 @@ export default function App() {
             }}>
               <b style={{ color: '#000' }}>📄 README.md</b><br/><br/>
               Ce projet est une application d'interface web React permettant d'uploader des documents PDF, de déclencher la génération de fiches solutions et secteurs via le pipeline RAG du backend, puis de visualiser, éditer et gérer ces fiches au format Markdown.
-
             </div>
             <a href="https://github.com/abdemeh/projet-kosmio-front" target="_blank" rel="noreferrer" style={{
               alignSelf: 'flex-start', backgroundColor: '#24292f', color: '#fff', padding: '8px 16px', 
@@ -339,7 +324,6 @@ export default function App() {
             </a>
           </div>
 
-          {/* PROJET 2 */}
           <div style={{ 
             backgroundColor: '#f8fafc', border: '1px solid #e2e8f0', borderRadius: '12px', padding: '20px',
             display: 'flex', flexDirection: 'column', gap: '12px' 
@@ -363,17 +347,17 @@ export default function App() {
               Voir sur GitHub
             </a>
           </div>
-<div 
-  onClick={() => { setShowInvaders(true); setActiveSection(null); }}
-  style={{
-    marginTop: '15px', padding: '15px', backgroundColor: '#fee2e2', borderRadius: '16px',
-    border: '2px dashed #ef4444', textAlign: 'center', cursor: 'pointer', transition: '0.2s'
-  }}
-  onMouseOver={(e) => e.currentTarget.style.transform = 'scale(1.02)'}
-  onMouseOut={(e) => e.currentTarget.style.transform = 'scale(1)'}
->
-  🚀 <b>NOUVEAU : Jouer à Space Invaders</b>
-</div>
+          <div 
+            onClick={() => { setShowInvaders(true); setActiveSection(null); }}
+            style={{
+              marginTop: '15px', padding: '15px', backgroundColor: '#fee2e2', borderRadius: '16px',
+              border: '2px dashed #ef4444', textAlign: 'center', cursor: 'pointer', transition: '0.2s'
+            }}
+            onMouseOver={(e) => e.currentTarget.style.transform = 'scale(1.02)'}
+            onMouseOut={(e) => e.currentTarget.style.transform = 'scale(1)'}
+          >
+            🚀 <b>Jouer à Space Invaders</b>
+          </div>
         </div>
       ),
     },
@@ -540,7 +524,6 @@ export default function App() {
               JEUX VIDÉOS
             </h3>
             <div style={{ color: '#ef4444', fontSize: '0.8rem', fontStyle: 'italic', marginBottom: '5px' }}>
-              &gt; // Game:
             </div>
             <div 
               onClick={() => { setShowGame(true); setActiveSection(null); }}
@@ -708,11 +691,12 @@ export default function App() {
               <MemoryGame onClose={() => setShowGame(false)} />
             </div>
           )}
+          
           {showInvaders && (
-  <div style={{ position: 'absolute', inset: 0, backgroundColor: 'rgba(0,0,0,0.85)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 120 }}>
-    <SpaceInvaders onClose={() => setShowInvaders(false)} />
-  </div>
-)}
+            <div style={{ position: 'absolute', inset: 0, backgroundColor: 'rgba(0,0,0,0.85)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 120 }}>
+              <SpaceInvaders onClose={() => setShowInvaders(false)} />
+            </div>
+          )}
         </div>
       </div>
     </>
