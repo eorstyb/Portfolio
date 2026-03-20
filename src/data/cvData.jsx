@@ -107,7 +107,7 @@ export const getCvData = (setShowGame, setShowInvaders, setActiveSection) => ({
       </div>
     ),
   },
-  experience: {
+  experiences: {
     title: "EXPÉRIENCES PRO",
     content: (
       <div style={{ position: 'relative', borderLeft: '3px solid #bfdbfe', marginLeft: '10px', marginTop: '15px', paddingBottom: '5px' }}>
