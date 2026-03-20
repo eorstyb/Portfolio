@@ -29,18 +29,18 @@ export default function App() {
     let timeout;
     if (introPhase === 0) {
       if (displayedText1.length < fullText1.length) {
-        timeout = setTimeout(() => setDisplayedText1(fullText1.slice(0, displayedText1.length + 1)), 35);
+        timeout = setTimeout(() => setDisplayedText1(fullText1.slice(0, displayedText1.length + 1)), 25);
       } else {
-        timeout = setTimeout(() => setIntroPhase(1), 800);
+        timeout = setTimeout(() => setIntroPhase(1), 400);
       }
     } else if (introPhase === 1) {
       if (displayedText2.length < fullText2.length) {
         timeout = setTimeout(() => setDisplayedText2(fullText2.slice(0, displayedText2.length + 1)), 50);
       } else {
-        timeout = setTimeout(() => setIntroPhase(2), 1500); 
+        timeout = setTimeout(() => setIntroPhase(2), 1000); 
       }
     } else if (introPhase === 2) {
-      timeout = setTimeout(() => setShowWelcome(false), 1200); 
+      timeout = setTimeout(() => setShowWelcome(false), 800); 
     }
     return () => clearTimeout(timeout);
   }, [displayedText1, displayedText2, introPhase, showWelcome]);
@@ -60,7 +60,26 @@ export default function App() {
   }, []);
 
   const isPortrait = windowSize.height > windowSize.width;
+  
+  // --- NOUVEAU : Calcul exact du ratio pour garder les clics alignés ---
+  const screenRatio = windowSize.height > 0 ? windowSize.width / windowSize.height : 16/9;
+  const isWiderThan16by9 = screenRatio > (16 / 9);
 
+  const roomStyle = isPortrait ? {
+    // Mode téléphone portrait : l'image prend 100% de la hauteur et déborde sur les côtés (zoom)
+    position: 'relative', 
+    height: `${windowSize.height}px`, 
+    width: `${windowSize.height * (16 / 9)}px`, 
+    margin: 0, 
+    flexShrink: 0
+  } : {
+    // Mode PC/Demi-écran : La boîte fait EXACTEMENT 16:9 en s'adaptant au bord le plus contraignant
+    position: 'relative', 
+    width: isWiderThan16by9 ? `${windowSize.height * (16 / 9)}px` : `${windowSize.width}px`, 
+    height: isWiderThan16by9 ? `${windowSize.height}px` : `${windowSize.width * (9 / 16)}px`, 
+    margin: 'auto', 
+    flexShrink: 0
+  };
   useEffect(() => {
     if (scrollWrapperRef.current && isPortrait && !showWelcome) {
       const wrapper = scrollWrapperRef.current;
@@ -69,15 +88,6 @@ export default function App() {
     }
   }, [windowSize.width, windowSize.height, isPortrait, showWelcome]);
 
-  const roomStyle = isPortrait ? {
-    position: 'relative', 
-    height: `${windowSize.height}px`, // 100% de la hauteur de l'écran
-    width: `${windowSize.height * (16 / 9)}px`, // La largeur s'adapte au ratio 16:9
-    margin: 0, 
-    flexShrink: 0
-  } : {
-    position: 'relative', width: '100%', height: '100%', maxWidth: `calc(${windowSize.height}px * (16/9))`, maxHeight: '100vw', aspectRatio: '16/9', margin: 'auto', flexShrink: 0
-  };
   return (
     <>
       {/* 👾 CSS GLOBAL : Police Pixel Art VT323 partout ! */}

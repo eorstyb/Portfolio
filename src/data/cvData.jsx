@@ -107,7 +107,7 @@ export const getCvData = (setShowGame, setShowInvaders, setActiveSection) => ({
       </div>
     ),
   },
-  experiences: {
+  experience: {
     title: "EXPÉRIENCES PRO",
     content: (
       <div style={{ position: 'relative', borderLeft: '3px solid #bfdbfe', marginLeft: '10px', marginTop: '15px', paddingBottom: '5px' }}>
@@ -228,10 +228,9 @@ export const getCvData = (setShowGame, setShowInvaders, setActiveSection) => ({
   divertissements: {
     title: "DIVERTISSEMENTS",
     content: (
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '25px', marginTop: '10px' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '25px', marginTop: '0px' }}>
         <div>
           <h3 style={{ fontSize: '1.4rem', color: '#ef4444', marginBottom: '15px', borderBottom: '2px solid #fee2e2', paddingBottom: '8px', letterSpacing: '1px' }}>JEUX VIDÉOS</h3>
-          <div style={{ color: '#ef4444', fontSize: '1.2rem', fontStyle: 'italic', marginBottom: '5px' }}>&gt; // Game:</div>
           
           <div onClick={() => { setShowGame(true); setActiveSection(null); }} title="Cliquez pour lancer mon Memory Game !"
             style={{
