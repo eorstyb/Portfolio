@@ -134,15 +134,27 @@ export default function App() {
           {clickZones.map((zone) => (
             <div key={zone.id} 
               onClick={() => {
-                if (zone.id === 'experience') {
+                if (zone.id === 'mobilite') {
                   setShowGallery(true);
                 } else {
                   setActiveSection(zone.id);
                 }
               }} 
               style={{ position: 'absolute', top: zone.top, left: zone.left, width: zone.width, height: zone.height, cursor: 'pointer', zIndex: 10, display: 'flex', justifyContent: 'center' }}>
+              
               {zone.displayTitle && (
-                <div style={{ backgroundColor: 'rgba(0,0,0,0.7)', color: '#fff', padding: '2px 8px', borderRadius: '6px', fontSize: '0.8rem', marginTop: '-15px', height: 'fit-content', whiteSpace: 'nowrap' }}>
+                <div style={{ 
+                  backgroundColor: 'rgba(0,0,0,0.85)', // Fond un peu plus sombre pour bien lire
+                  color: '#fff', 
+                  padding: '8px 18px',      // ⬅️ BOÎTE PLUS GRANDE (avant c'était 2px 8px)
+                  borderRadius: '8px', 
+                  fontSize: '1rem',       // ⬅️ TEXTE PLUS GRAND (avant c'était 0.8rem)
+                  letterSpacing: '1.2px',     // Espace un peu les lettres pour le style pixel
+                  marginTop: '-30px',       // ⬅️ Remonte la boîte plus haut pour ne pas cacher l'objet
+                  height: 'fit-content', 
+                  whiteSpace: 'nowrap',
+                  boxShadow: '0 4px 8px #64748b)' // Petite ombre sympathique
+                }}>
                   {zone.id === 'experience' ? 'GALERIE' : zone.displayTitle}
                 </div>
               )}
@@ -178,7 +190,7 @@ export default function App() {
           <SpaceInvaders onClose={() => setShowInvaders(false)} />
         </div>
       )}
-      
+
       {showGallery && (
         <GalleryBoard onClose={() => setShowGallery(false)} />
       )}

@@ -16,7 +16,8 @@ export const clickZones = [
   { id: 'about', label: 'Ordinateur', displayTitle: 'À PROPOS', top: '35%', left: '15%', width: '18%', height: '22%' },
   { id: 'projects', label: 'Documents', displayTitle: 'PROJETS', top: '48%', left: '28%', width: '18%', height: '22%' },
   { id: 'skills', label: 'Serveur', displayTitle: 'COMPÉTENCES', top: '63%', left: '41%', width: '16%', height: '27%' },
-  { id: 'experience', label: 'Tableau liège', displayTitle: 'EXPÉRIENCES PRO', top: '5%', left: '12%', width: '22%', height: '28%' },
+  { id: 'mobilite', label: 'Tableau liège', displayTitle: 'MOBILITE', top: '5%', left: '13%', width: '22%', height: '28%' },
+  { id: 'experiences', label: 'Sac', displayTitle: 'EXPERIENCES PRO', top: '79%', left: '10%', width: '22%', height: '28%' },
   { id: 'education', label: 'Diplômes', displayTitle: 'FORMATIONS', top: '40%', left: '45%', width: '22%', height: '15%' },
   { id: 'contact', label: 'Téléphone', displayTitle: null, top: '65%', left: '79%', width: '8%', height: '5%' }, 
   { id: 'interests', label: 'Posters', displayTitle: 'PASSIONS', top: '5%', left: '40%', width: '28%', height: '33%' },
@@ -103,6 +104,31 @@ export const getCvData = (setShowGame, setShowInvaders, setActiveSection) => ({
           {renderSkill("https://upload.wikimedia.org/wikipedia/commons/8/83/Flag_of_the_United_Kingdom_%283-5%29.svg", "Professionnel")}
           {renderSkill("https://upload.wikimedia.org/wikipedia/commons/thumb/9/9e/Flag_of_Japan.svg/960px-Flag_of_Japan.svg.png", "Notions")}
        </div>
+      </div>
+    ),
+  },
+  experiences: {
+    title: "EXPÉRIENCES PRO",
+    content: (
+      <div style={{ position: 'relative', borderLeft: '3px solid #bfdbfe', marginLeft: '10px', marginTop: '15px', paddingBottom: '5px' }}>
+        <div style={{ position: 'relative', paddingLeft: '30px', paddingBottom: '35px'}}>
+          <div style={{ position: 'absolute', left: '-10px', top: '0', width: '16px', height: '16px', borderRadius: '50%', backgroundColor: '#3b82f6', border: '3px solid #fff', boxShadow: '0 0 0 2px #bfdbfe' }}></div>
+          <div style={{ backgroundColor: '#eff6ff', color: '#1d4ed8', padding: '4px 12px', borderRadius: '20px', fontSize: '1rem', display: 'inline-block', marginBottom: '10px' }}>Avril 2024 - Août 2024</div>
+          <h3 style={{ margin: '0 0 8px 0', fontSize: '1.4rem', color: '#0f172a' }}>Stagiaire IA <span style={{ color: '#64748b', fontSize: '1.1rem' }}>@ Osaka Metropolitan University</span></h3>
+          <p style={{ margin: 0, color: '#475569', fontSize: '1.1rem', lineHeight: '1.6' }}>• Recherche de solutions de minimisation des datasets<br/>• Scrapping et analyse de données<br/>• Optimisation et tests de LLM sur le dataset récupéré</p>
+        </div>
+        <div style={{ position: 'relative', paddingLeft: '30px', paddingBottom: '35px' }}>
+          <div style={{ position: 'absolute', left: '-10px', top: '0', width: '16px', height: '16px', borderRadius: '50%', backgroundColor: '#3b82f6', border: '3px solid #fff', boxShadow: '0 0 0 2px #bfdbfe' }}></div>
+          <div style={{ backgroundColor: '#eff6ff', color: '#1d4ed8', padding: '4px 12px', borderRadius: '20px', fontSize: '1rem', display: 'inline-block', marginBottom: '10px' }}>Novembre 2019 - Septembre 2020</div>
+          <h3 style={{ margin: '0 0 8px 0', fontSize: '1.4rem', color: '#0f172a' }}>Alternant Développeur <span style={{ color: '#64748b', fontSize: '1.1rem' }}>@ ACHGO</span></h3>
+          <p style={{ margin: 0, color: '#475569', fontSize: '1.1rem', lineHeight: '1.6' }}>• Développement et maintenance d'une application web Java<br/>• Tests de projets JavaScript pour conseil d'une entreprise cliente<br/>• Création de pages web Wordpress</p>
+        </div>
+        <div style={{ position: 'relative', paddingLeft: '30px'}}>
+          <div style={{ position: 'absolute', left: '-10px', top: '0', width: '16px', height: '16px', borderRadius: '50%', backgroundColor: '#3b82f6', border: '3px solid #fff', boxShadow: '0 0 0 2px #bfdbfe' }}></div>
+          <div style={{ backgroundColor: '#eff6ff', color: '#1d4ed8', padding: '4px 12px', borderRadius: '20px', fontSize: '1rem', display: 'inline-block', marginBottom: '10px' }}>Novembre 2018 - Avril 2021</div>
+          <h3 style={{ margin: '0 0 8px 0', fontSize: '1.4rem', color: '#0f172a' }}>Stagiaire Ingénieur d'Étude <span style={{ color: '#64748b', fontSize: '1.1rem' }}>@ Infotel</span></h3>
+          <p style={{ margin: 0, color: '#475569', fontSize: '1.1rem', lineHeight: '1.6' }}>• Tierce Maintenance Applicative d'une application web Springboot<br/>• Gestion des tickets Jira<br/>• Équipe coordonnée grâce à scrumban</p>
+        </div>
       </div>
     ),
   },

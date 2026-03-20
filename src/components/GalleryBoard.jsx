@@ -3,14 +3,14 @@ import React from 'react';
 const GalleryBoard = ({ onClose }) => {
   // Remplacer ces liens par tes propres images (ex: "/ma-photo1.jpg")
   const images = [
-    "https://picsum.photos/seed/pic1/300/200",
-    "https://picsum.photos/seed/pic2/300/200",
-    "https://picsum.photos/seed/pic3/300/200",
-    "https://picsum.photos/seed/pic4/300/200",
-    "https://picsum.photos/seed/pic5/300/200",
-    "https://picsum.photos/seed/pic6/300/200",
-    "https://picsum.photos/seed/pic7/300/200",
-    "https://picsum.photos/seed/pic8/300/200"
+    "/chateau1.JPEG",
+    "/ramen.JPEG",
+    "/osaka-tower.JPEG",
+    "/pagode.jpg",
+    "/chateau2.JPEG",
+    "/onigiri.JPEG",
+    "/tokyo-temple.JPEG",
+    "/mario.JPEG"
   ];
 
   // Rotations aléatoires pour donner l'impression qu'elles sont "jetées" sur le tableau
@@ -85,11 +85,8 @@ const GalleryBoard = ({ onClose }) => {
                 boxShadow: 'inset -2px -2px 4px rgba(0,0,0,0.3), 1px 2px 3px rgba(0,0,0,0.4)', zIndex: 2
               }} />
               
-              <img src={src} alt={`Souvenir ${i+1}`} style={{ width: '100%', height: '120px', objectFit: 'cover', border: '1px solid #cbd5e1' }} />
+              <img src={src} alt={`Souvenir ${i+1}`} style={{ width: '100%', height: '100%', objectFit: 'cover', border: '1px solid #cbd5e1' }} />
               
-              <div style={{ position: 'absolute', bottom: '8px', left: '0', width: '100%', textAlign: 'center', color: '#475569', fontSize: '1.2rem' }}>
-                Photo {i+1}
-              </div>
             </div>
           ))}
         </div>
