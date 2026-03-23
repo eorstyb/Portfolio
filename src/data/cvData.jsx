@@ -161,7 +161,7 @@ export const getCvData = (setShowGame, setShowInvaders, setActiveSection) => ({
              <span style={{ fontSize: '1rem', color: '#c2410c' }}>Google Cloud Certified</span>
           </div>
           <div style={{ backgroundColor: '#f0fdf4', padding: '15px', borderRadius: '12px', border: '1px solid #dcfce7', display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' }}>
-             <div style={{ width: '40px', height: '40px', backgroundColor: '#16a34a', borderRadius: '50%', marginBottom: '10px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white', fontSize: '1.4rem' }}>890</div>
+             <div style={{ width: '40px', height: '40px', backgroundColor: '#16a34a', borderRadius: '50%', marginBottom: '10px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white', fontSize: '1.4rem' }}>930</div>
              <span style={{ fontSize: '1.2rem', color: '#166534' }}>TOEIC Score</span>
              <span style={{ fontSize: '1rem', color: '#15803d' }}>Niveau Professionnel</span>
           </div>
