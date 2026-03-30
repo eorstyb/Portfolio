@@ -13,15 +13,15 @@ const renderSkill = (logoUrl, name) => (
 );
 
 export const clickZones = [
-  { id: 'about', label: 'Ordinateur', displayTitle: 'À PROPOS', top: '35%', left: '15%', width: '18%', height: '22%' },
-  { id: 'projects', label: 'Documents', displayTitle: 'PROJETS', top: '48%', left: '28%', width: '18%', height: '22%' },
+  { id: 'about', label: 'Ordinateur', displayTitle: 'À PROPOS', top: '35%', left: '16%', width: '18%', height: '22%' },
+  { id: 'projects', label: 'Documents', displayTitle: 'PROJETS', top: '50%', left: '33%', width: '18%', height: '22%' },
   { id: 'skills', label: 'Serveur', displayTitle: 'COMPÉTENCES', top: '63%', left: '41%', width: '16%', height: '27%' },
   { id: 'mobilite', label: 'Tableau liège', displayTitle: 'MOBILITE', top: '5%', left: '13%', width: '22%', height: '28%' },
   { id: 'experiences', label: 'Sac', displayTitle: 'EXPERIENCES PRO', top: '79%', left: '10%', width: '22%', height: '28%' },
   { id: 'education', label: 'Diplômes', displayTitle: 'FORMATIONS', top: '40%', left: '45%', width: '22%', height: '15%' },
   { id: 'contact', label: 'Téléphone', displayTitle: null, top: '65%', left: '79%', width: '8%', height: '5%' }, 
-  { id: 'interests', label: 'Posters', displayTitle: 'PASSIONS', top: '5%', left: '40%', width: '28%', height: '33%' },
-  { id: 'divertissements', label: 'Sunny', displayTitle: 'DIVERTISSEMENTS', top: '10%', left: '72%', width: '25%', height: '30%' },
+  { id: 'interests', label: 'Posters', displayTitle: 'PASSIONS', top: '5%', left: '41%', width: '28%', height: '33%' },
+  { id: 'divertissements', label: 'Sunny', displayTitle: 'DIVERTISSEMENTS', top: '10%', left: '75%', width: '25%', height: '30%' },
 ];
 
 export const getCvData = (setShowGame, setShowInvaders, setActiveSection) => ({
