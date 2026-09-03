@@ -120,6 +120,13 @@ export const getCvData = (setShowGame, setShowInvaders, setActiveSection) => ({
             • Mise en place de la supervision (Grafana, Prometheus)<br/>
             • Écriture de scripts Bash et Python pour le suivi des taux de disponibilité (PostgreSQL)
           </div>
+          <div style={{ display: 'flex', gap: '8px', marginTop: '10px', flexWrap: 'wrap' }}>
+            <span style={{ backgroundColor: '#eff6ff', color: '#1d4ed8', padding: '3px 8px', borderRadius: '6px', fontSize: '0.9rem', border: '1px solid #bfdbfe' }}>ArgoCD</span>
+            <span style={{ backgroundColor: '#eff6ff', color: '#1d4ed8', padding: '3px 8px', borderRadius: '6px', fontSize: '0.9rem', border: '1px solid #bfdbfe' }}>Helm</span>
+            <span style={{ backgroundColor: '#eff6ff', color: '#1d4ed8', padding: '3px 8px', borderRadius: '6px', fontSize: '0.9rem', border: '1px solid #bfdbfe' }}>Grafana</span>
+            <span style={{ backgroundColor: '#eff6ff', color: '#1d4ed8', padding: '3px 8px', borderRadius: '6px', fontSize: '0.9rem', border: '1px solid #bfdbfe' }}>Prometheus</span>
+            <span style={{ backgroundColor: '#eff6ff', color: '#1d4ed8', padding: '3px 8px', borderRadius: '6px', fontSize: '0.9rem', border: '1px solid #bfdbfe' }}>Python / Bash</span>
+          </div>
         </div>
         <div style={{ position: 'relative', paddingLeft: '30px', paddingBottom: '35px'}}>
           <div style={{ position: 'absolute', left: '-10px', top: '0', width: '16px', height: '16px', borderRadius: '50%', backgroundColor: '#3b82f6', border: '3px solid #fff', boxShadow: '0 0 0 2px #bfdbfe' }}></div>
@@ -127,6 +134,11 @@ export const getCvData = (setShowGame, setShowInvaders, setActiveSection) => ({
           <h3 style={{ margin: '0 0 8px 0', fontSize: '1.4rem', color: '#0f172a' }}>Stagiaire IA <span style={{ color: '#64748b', fontSize: '1.1rem' }}>@ Osaka Metropolitan University</span></h3>
           <div style={{ backgroundColor: '#f8fafc', padding: '12px', borderRadius: '8px', border: '1px solid #e2e8f0', color: '#475569', fontSize: '1.1rem', lineHeight: '1.6' }}>
             • Recherche de solutions de minimisation des datasets<br/>• Scrapping et analyse de données<br/>• Optimisation et tests de LLM sur le dataset récupéré
+          </div>
+          <div style={{ display: 'flex', gap: '8px', marginTop: '10px', flexWrap: 'wrap' }}>
+            <span style={{ backgroundColor: '#eff6ff', color: '#1d4ed8', padding: '3px 8px', borderRadius: '6px', fontSize: '0.9rem', border: '1px solid #bfdbfe' }}>Python</span>
+            <span style={{ backgroundColor: '#eff6ff', color: '#1d4ed8', padding: '3px 8px', borderRadius: '6px', fontSize: '0.9rem', border: '1px solid #bfdbfe' }}>LLM</span>
+            <span style={{ backgroundColor: '#eff6ff', color: '#1d4ed8', padding: '3px 8px', borderRadius: '6px', fontSize: '0.9rem', border: '1px solid #bfdbfe' }}>Data Scrapping</span>
           </div>
         </div>
         <div style={{ position: 'relative', paddingLeft: '30px', paddingBottom: '35px' }}>
@@ -136,6 +148,11 @@ export const getCvData = (setShowGame, setShowInvaders, setActiveSection) => ({
           <div style={{ backgroundColor: '#f8fafc', padding: '12px', borderRadius: '8px', border: '1px solid #e2e8f0', color: '#475569', fontSize: '1.1rem', lineHeight: '1.6' }}>
             • Développement et maintenance d'une application web Java<br/>• Tests de projets JavaScript pour conseil d'une entreprise cliente<br/>• Création de pages web Wordpress
           </div>
+          <div style={{ display: 'flex', gap: '8px', marginTop: '10px', flexWrap: 'wrap' }}>
+            <span style={{ backgroundColor: '#eff6ff', color: '#1d4ed8', padding: '3px 8px', borderRadius: '6px', fontSize: '0.9rem', border: '1px solid #bfdbfe' }}>Java</span>
+            <span style={{ backgroundColor: '#eff6ff', color: '#1d4ed8', padding: '3px 8px', borderRadius: '6px', fontSize: '0.9rem', border: '1px solid #bfdbfe' }}>JavaScript</span>
+            <span style={{ backgroundColor: '#eff6ff', color: '#1d4ed8', padding: '3px 8px', borderRadius: '6px', fontSize: '0.9rem', border: '1px solid #bfdbfe' }}>WordPress</span>
+          </div>
         </div>
         <div style={{ position: 'relative', paddingLeft: '30px'}}>
           <div style={{ position: 'absolute', left: '-10px', top: '0', width: '16px', height: '16px', borderRadius: '50%', backgroundColor: '#3b82f6', border: '3px solid #fff', boxShadow: '0 0 0 2px #bfdbfe' }}></div>
@@ -143,6 +160,11 @@ export const getCvData = (setShowGame, setShowInvaders, setActiveSection) => ({
           <h3 style={{ margin: '0 0 8px 0', fontSize: '1.4rem', color: '#0f172a' }}>Stagiaire Ingénieur d'Étude <span style={{ color: '#64748b', fontSize: '1.1rem' }}>@ Infotel</span></h3>
           <div style={{ backgroundColor: '#f8fafc', padding: '12px', borderRadius: '8px', border: '1px solid #e2e8f0', color: '#475569', fontSize: '1.1rem', lineHeight: '1.6' }}>
             • Tierce Maintenance Applicative d'une application web Springboot<br/>• Gestion des tickets Jira<br/>• Équipe coordonnée grâce à scrumban
+          </div>
+          <div style={{ display: 'flex', gap: '8px', marginTop: '10px', flexWrap: 'wrap' }}>
+            <span style={{ backgroundColor: '#eff6ff', color: '#1d4ed8', padding: '3px 8px', borderRadius: '6px', fontSize: '0.9rem', border: '1px solid #bfdbfe' }}>Spring Boot</span>
+            <span style={{ backgroundColor: '#eff6ff', color: '#1d4ed8', padding: '3px 8px', borderRadius: '6px', fontSize: '0.9rem', border: '1px solid #bfdbfe' }}>Jira</span>
+            <span style={{ backgroundColor: '#eff6ff', color: '#1d4ed8', padding: '3px 8px', borderRadius: '6px', fontSize: '0.9rem', border: '1px solid #bfdbfe' }}>Scrumban</span>
           </div>
         </div>
       </div>
