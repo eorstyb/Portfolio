@@ -113,21 +113,37 @@ export const getCvData = (setShowGame, setShowInvaders, setActiveSection) => ({
       <div style={{ position: 'relative', borderLeft: '3px solid #bfdbfe', marginLeft: '10px', marginTop: '15px', paddingBottom: '5px' }}>
         <div style={{ position: 'relative', paddingLeft: '30px', paddingBottom: '35px'}}>
           <div style={{ position: 'absolute', left: '-10px', top: '0', width: '16px', height: '16px', borderRadius: '50%', backgroundColor: '#3b82f6', border: '3px solid #fff', boxShadow: '0 0 0 2px #bfdbfe' }}></div>
+          <div style={{ backgroundColor: '#eff6ff', color: '#1d4ed8', padding: '4px 12px', borderRadius: '20px', fontSize: '1rem', display: 'inline-block', marginBottom: '10px' }}>Avril 2026 - Septembre 2026</div>
+          <h3 style={{ margin: '0 0 8px 0', fontSize: '1.4rem', color: '#0f172a' }}>Stagiaire Ingénieur DevOps (Fin d'études) <span style={{ color: '#64748b', fontSize: '1.1rem' }}>@ Sopra Steria</span></h3>
+          <div style={{ backgroundColor: '#f8fafc', padding: '12px', borderRadius: '8px', border: '1px solid #e2e8f0', color: '#475569', fontSize: '1.1rem', lineHeight: '1.6' }}>
+            • Maintenance et mises à jour de clusters (ArgoCD, Helm)<br/>
+            • Mise en place de la supervision (Grafana, Prometheus)<br/>
+            • Écriture de scripts Bash et Python pour le suivi des taux de disponibilité (PostgreSQL)
+          </div>
+        </div>
+        <div style={{ position: 'relative', paddingLeft: '30px', paddingBottom: '35px'}}>
+          <div style={{ position: 'absolute', left: '-10px', top: '0', width: '16px', height: '16px', borderRadius: '50%', backgroundColor: '#3b82f6', border: '3px solid #fff', boxShadow: '0 0 0 2px #bfdbfe' }}></div>
           <div style={{ backgroundColor: '#eff6ff', color: '#1d4ed8', padding: '4px 12px', borderRadius: '20px', fontSize: '1rem', display: 'inline-block', marginBottom: '10px' }}>Avril 2024 - Août 2024</div>
           <h3 style={{ margin: '0 0 8px 0', fontSize: '1.4rem', color: '#0f172a' }}>Stagiaire IA <span style={{ color: '#64748b', fontSize: '1.1rem' }}>@ Osaka Metropolitan University</span></h3>
-          <p style={{ margin: 0, color: '#475569', fontSize: '1.1rem', lineHeight: '1.6' }}>• Recherche de solutions de minimisation des datasets<br/>• Scrapping et analyse de données<br/>• Optimisation et tests de LLM sur le dataset récupéré</p>
+          <div style={{ backgroundColor: '#f8fafc', padding: '12px', borderRadius: '8px', border: '1px solid #e2e8f0', color: '#475569', fontSize: '1.1rem', lineHeight: '1.6' }}>
+            • Recherche de solutions de minimisation des datasets<br/>• Scrapping et analyse de données<br/>• Optimisation et tests de LLM sur le dataset récupéré
+          </div>
         </div>
         <div style={{ position: 'relative', paddingLeft: '30px', paddingBottom: '35px' }}>
           <div style={{ position: 'absolute', left: '-10px', top: '0', width: '16px', height: '16px', borderRadius: '50%', backgroundColor: '#3b82f6', border: '3px solid #fff', boxShadow: '0 0 0 2px #bfdbfe' }}></div>
           <div style={{ backgroundColor: '#eff6ff', color: '#1d4ed8', padding: '4px 12px', borderRadius: '20px', fontSize: '1rem', display: 'inline-block', marginBottom: '10px' }}>Novembre 2019 - Septembre 2020</div>
           <h3 style={{ margin: '0 0 8px 0', fontSize: '1.4rem', color: '#0f172a' }}>Alternant Développeur <span style={{ color: '#64748b', fontSize: '1.1rem' }}>@ ACHGO</span></h3>
-          <p style={{ margin: 0, color: '#475569', fontSize: '1.1rem', lineHeight: '1.6' }}>• Développement et maintenance d'une application web Java<br/>• Tests de projets JavaScript pour conseil d'une entreprise cliente<br/>• Création de pages web Wordpress</p>
+          <div style={{ backgroundColor: '#f8fafc', padding: '12px', borderRadius: '8px', border: '1px solid #e2e8f0', color: '#475569', fontSize: '1.1rem', lineHeight: '1.6' }}>
+            • Développement et maintenance d'une application web Java<br/>• Tests de projets JavaScript pour conseil d'une entreprise cliente<br/>• Création de pages web Wordpress
+          </div>
         </div>
         <div style={{ position: 'relative', paddingLeft: '30px'}}>
           <div style={{ position: 'absolute', left: '-10px', top: '0', width: '16px', height: '16px', borderRadius: '50%', backgroundColor: '#3b82f6', border: '3px solid #fff', boxShadow: '0 0 0 2px #bfdbfe' }}></div>
           <div style={{ backgroundColor: '#eff6ff', color: '#1d4ed8', padding: '4px 12px', borderRadius: '20px', fontSize: '1rem', display: 'inline-block', marginBottom: '10px' }}>Novembre 2018 - Avril 2021</div>
           <h3 style={{ margin: '0 0 8px 0', fontSize: '1.4rem', color: '#0f172a' }}>Stagiaire Ingénieur d'Étude <span style={{ color: '#64748b', fontSize: '1.1rem' }}>@ Infotel</span></h3>
-          <p style={{ margin: 0, color: '#475569', fontSize: '1.1rem', lineHeight: '1.6' }}>• Tierce Maintenance Applicative d'une application web Springboot<br/>• Gestion des tickets Jira<br/>• Équipe coordonnée grâce à scrumban</p>
+          <div style={{ backgroundColor: '#f8fafc', padding: '12px', borderRadius: '8px', border: '1px solid #e2e8f0', color: '#475569', fontSize: '1.1rem', lineHeight: '1.6' }}>
+            • Tierce Maintenance Applicative d'une application web Springboot<br/>• Gestion des tickets Jira<br/>• Équipe coordonnée grâce à scrumban
+          </div>
         </div>
       </div>
     ),
