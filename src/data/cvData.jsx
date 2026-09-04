@@ -116,16 +116,21 @@ export const getCvData = (setShowGame, setShowInvaders, setActiveSection) => ({
           <div style={{ backgroundColor: '#eff6ff', color: '#1d4ed8', padding: '4px 12px', borderRadius: '20px', fontSize: '1rem', display: 'inline-block', marginBottom: '10px' }}>Avril 2026 - Septembre 2026</div>
           <h3 style={{ margin: '0 0 8px 0', fontSize: '1.4rem', color: '#0f172a' }}>Stagiaire Ingénieur DevOps (Fin d'études) <span style={{ color: '#64748b', fontSize: '1.1rem' }}>@ Sopra Steria</span></h3>
           <div style={{ backgroundColor: '#f8fafc', padding: '12px', borderRadius: '8px', border: '1px solid #e2e8f0', color: '#475569', fontSize: '1.1rem', lineHeight: '1.6' }}>
-            • Maintenance et mises à jour de clusters (ArgoCD, Helm)<br/>
-            • Mise en place de la supervision (Grafana, Prometheus)<br/>
-            • Écriture de scripts Bash et Python pour le suivi des taux de disponibilité (PostgreSQL)
+            • Maintenance et mises à jour de clusters<br/>
+            • Mise en place de la supervision avec Grafana<br/>
+            • Écriture de scripts Bash et Python pour le suivi des taux de disponibilité des applications et services<br/>
+            • Développement et déploiement d'IaC avec Bicep et Helm<br/>
           </div>
-          <div style={{ display: 'flex', gap: '8px', marginTop: '10px', flexWrap: 'wrap' }}>
+          <div style={{ display: 'flex', gap: '8px', marginTop: '10px', flexWrap: 'wrap'}}>
             <span style={{ backgroundColor: '#eff6ff', color: '#1d4ed8', padding: '3px 8px', borderRadius: '6px', fontSize: '0.9rem', border: '1px solid #bfdbfe' }}>ArgoCD</span>
             <span style={{ backgroundColor: '#eff6ff', color: '#1d4ed8', padding: '3px 8px', borderRadius: '6px', fontSize: '0.9rem', border: '1px solid #bfdbfe' }}>Helm</span>
             <span style={{ backgroundColor: '#eff6ff', color: '#1d4ed8', padding: '3px 8px', borderRadius: '6px', fontSize: '0.9rem', border: '1px solid #bfdbfe' }}>Grafana</span>
             <span style={{ backgroundColor: '#eff6ff', color: '#1d4ed8', padding: '3px 8px', borderRadius: '6px', fontSize: '0.9rem', border: '1px solid #bfdbfe' }}>Prometheus</span>
             <span style={{ backgroundColor: '#eff6ff', color: '#1d4ed8', padding: '3px 8px', borderRadius: '6px', fontSize: '0.9rem', border: '1px solid #bfdbfe' }}>Python / Bash</span>
+            <span style={{ backgroundColor: '#eff6ff', color: '#1d4ed8', padding: '3px 8px', borderRadius: '6px', fontSize: '0.9rem', border: '1px solid #bfdbfe' }}>Bicep</span>
+            <span style={{ backgroundColor: '#eff6ff', color: '#1d4ed8', padding: '3px 8px', borderRadius: '6px', fontSize: '0.9rem', border: '1px solid #bfdbfe' }}>Azure</span>
+            <span style={{ backgroundColor: '#eff6ff', color: '#1d4ed8', padding: '3px 8px', borderRadius: '6px', fontSize: '0.9rem', border: '1px solid #bfdbfe' }}>WSL</span>
+            <span style={{ backgroundColor: '#eff6ff', color: '#1d4ed8', padding: '3px 8px', borderRadius: '6px', fontSize: '0.9rem', border: '1px solid #bfdbfe' }}>Proxmox</span>
           </div>
         </div>
         <div style={{ position: 'relative', paddingLeft: '30px', paddingBottom: '35px'}}>
@@ -139,6 +144,7 @@ export const getCvData = (setShowGame, setShowInvaders, setActiveSection) => ({
             <span style={{ backgroundColor: '#eff6ff', color: '#1d4ed8', padding: '3px 8px', borderRadius: '6px', fontSize: '0.9rem', border: '1px solid #bfdbfe' }}>Python</span>
             <span style={{ backgroundColor: '#eff6ff', color: '#1d4ed8', padding: '3px 8px', borderRadius: '6px', fontSize: '0.9rem', border: '1px solid #bfdbfe' }}>LLM</span>
             <span style={{ backgroundColor: '#eff6ff', color: '#1d4ed8', padding: '3px 8px', borderRadius: '6px', fontSize: '0.9rem', border: '1px solid #bfdbfe' }}>Data Scrapping</span>
+            <span style={{ backgroundColor: '#eff6ff', color: '#1d4ed8', padding: '3px 8px', borderRadius: '6px', fontSize: '0.9rem', border: '1px solid #bfdbfe' }}>R&D</span>
           </div>
         </div>
         <div style={{ position: 'relative', paddingLeft: '30px', paddingBottom: '35px' }}>
